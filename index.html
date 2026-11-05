@@ -33,6 +33,7 @@ th.hora, th.day { background:#dde7f0; font-size:10.5px; }
 .eixo-EMANCIPACAO { background:#FFFFFF; border:1px solid #999; }
 .cell-multi { background:#C55A11; color:#fff; font-weight:700; text-align:center; padding:14px 4px; border-radius:4px; }
 .cell-plan { background:#7F7F7F; color:#fff; font-weight:700; text-align:center; padding:14px 4px; border-radius:4px; }
+.intervalo { background:#f2f2f2; text-align:center; font-weight:600; color:#777; letter-spacing:.4px; }
 .conf { outline:2px solid #e74c3c; }
 aside { width:360px; position:sticky; top:14px; }
 .painel { background:#fff; border:1px solid #cfd8e3; border-radius:10px; padding:12px; margin-bottom:14px; box-shadow:0 2px 6px rgba(0,0,0,.07); }
@@ -92,6 +93,21 @@ const OFICINAS = ["Corpo e movimento", "Corpo e movimento - Teatro", "Habilidade
 const EIXO_OFICINA = {"Habilidades Motoras e Esportes": "CONVIVENCIA", "Matemática: Fundamentos e Resolução de Problemas": "AMPLIACAO", "Semeando Valores": "CONVIVENCIA", "Lingua Portuguesa: Fundamentos, textos e sentidos": "AMPLIACAO", "Inglês e Novas Culturas": "AMPLIACAO", "Expressão Artística e Comunitária": "PERTENCIMENTO", "Corpo e movimento": "CONVIVENCIA", "Territorio Meio Ambiente e Comunidade": "PERTENCIMENTO", "Inventar e Criar": "PERTENCIMENTO", "Artes Plasticas": "PERTENCIMENTO", "Corpo e movimento - Teatro": "CONVIVENCIA", "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro": "AMPLIACAO", "Cidadania e Participação no mundo digital": "EMANCIPACAO", "CANOAGEM": "EMANCIPACAO", "Comunicação Expressão e participação": "AMPLIACAO", "Jogos Estratégias e desafios": "CONVIVENCIA", "XADREZ* PROJETO MAKER?": "EMANCIPACAO", "Voz da vila": "AMPLIACAO", "Ingles e novas Culturas": "EMANCIPACAO", "Inglese novas Culturas": "EMANCIPACAO"};
 const diasOrd = ['SEG','TER','QUA','QUI','SEX'];
 const diasNome = {SEG:'Segunda',TER:'Terça',QUA:'Quarta',QUI:'Quinta',SEX:'Sexta'};
+var INTERVALOS = {
+  'Infancia|MATUTINO': [
+    {pos: 2, time: '10h20 - 10h40', label: 'Intervalo'},
+    {pos: 2, time: '10h40 - 11h00', label: 'Escovação + saída'}
+  ],
+  'Infancia|VESPERTINO': [
+    {pos: 0, time: '14h50 - 15h10', label: 'Intervalo'}
+  ],
+  'ADOLESCENCIA|MATUTINO': [
+    {pos: 1, time: '9h30 - 9h50', label: 'Intervalo'}
+  ],
+  'ADOLESCENCIA|VESPERTINO': [
+    {pos: -1, time: '13h50 - 14h20', label: 'Almoço'}
+  ]
+};
 
 function buildTurmas() {
   const cont = document.getElementById('turmas');
@@ -110,6 +126,10 @@ function buildTurmas() {
       let tbl = '<table><tr><th class="hora">Horário</th>';
       diasOrd.forEach(dd => tbl += '<th class="day">'+diasNome[dd]+'</th>');
       tbl += '</tr>';
+      var ints = INTERVALOS[tur.segmento + '|' + tur.turno] || [];
+      ints.filter(function(x){ return x.pos === -1; }).forEach(function(it){
+        tbl += '<tr><th class="hora">' + it.time + '</th><td colspan="5" class="intervalo">' + it.label + '</td></tr>';
+      });
       tur.slots.forEach((slot, si) => {
         tbl += '<tr><th class="hora">'+slot.time+'</th>';
         slot.row.forEach((cell, di) => {
@@ -123,6 +143,9 @@ function buildTurmas() {
             + '</div></td>';
         });
         tbl += '</tr>';
+        ints.filter(function(x){ return x.pos === si; }).forEach(function(it){
+          tbl += '<tr><th class="hora">' + it.time + '</th><td colspan="5" class="intervalo">' + it.label + '</td></tr>';
+        });
       });
       tbl += '</table>';
       card.innerHTML = '<h3>'+tur.key+' <span class="turno">'+(tur.turno==='MATUTINO'?'MATUTINO':'VESPERTINO')+'</span></h3>' + tbl;
