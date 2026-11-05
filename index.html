@@ -31,6 +31,8 @@ th.hora, th.day { background:#dde7f0; font-size:10.5px; }
 .eixo-PERTENCIMENTO { background:#8EAADB; }
 .eixo-AMPLIACAO { background:#FFC000; }
 .eixo-EMANCIPACAO { background:#FFFFFF; border:1px solid #999; }
+.cell-multi { background:#C55A11; color:#fff; font-weight:700; text-align:center; padding:14px 4px; border-radius:4px; }
+.cell-plan { background:#7F7F7F; color:#fff; font-weight:700; text-align:center; padding:14px 4px; border-radius:4px; }
 .conf { outline:2px solid #e74c3c; }
 aside { width:360px; position:sticky; top:14px; }
 .painel { background:#fff; border:1px solid #cfd8e3; border-radius:10px; padding:12px; margin-bottom:14px; box-shadow:0 2px 6px rgba(0,0,0,.07); }
@@ -62,8 +64,13 @@ aside { width:360px; position:sticky; top:14px; }
   <span><i class="sw" style="background:#FFC000"></i> Ampliação de direitos</span>
   <span><i class="sw" style="background:#FFFFFF"></i> Emancipação</span>
 </div>
+<div style="padding:8px 22px;background:#fff;border-bottom:1px solid #cfd8e3;">
+  <button id="tabTurmas" class="btn-primary" onclick="mostrarAba('turmas')">Por turma</button>
+  <button id="tabEduc" class="btn-warn" onclick="mostrarAba('educ')">Por educador</button>
+</div>
 <div class="main">
   <div class="turmas" id="turmas"></div>
+  <div class="turmas" id="porEducador" style="display:none"></div>
   <aside>
     <div class="painel">
       <h2>Conflitos</h2>
@@ -266,6 +273,8 @@ function revalidate() {
     return arr.join('');
   })());
   mostraCarga();
+  var pe = document.getElementById('porEducador');
+  if (pe && pe.style.display !== 'none') buildEducadores();
 }
 
 function mostraCarga() {
@@ -441,6 +450,90 @@ function exportar() {
   a.href = URL.createObjectURL(blob);
   a.download = 'grade2027_exportada.xls';
   a.click();
+}
+
+function calcSlotsSeg() {
+  var SLOTS_SEG = {};
+  DATA.turmas.forEach(function(t) {
+    var key = t.segmento + '|' + (t.turno==='MATUTINO'?'MANHA':'TARDE');
+    if (!SLOTS_SEG[key]) SLOTS_SEG[key] = t.slots.map(function(s){ return s.time; });
+  });
+  return SLOTS_SEG;
+}
+
+function buildEducadores() {
+  var cont = document.getElementById('porEducador');
+  if (!cont) return;
+  cont.innerHTML = '';
+  var SLOTS_SEG = calcSlotsSeg();
+  var DIA_NOME = ['Seg','Ter','Qua','Qui','Sex'];
+  var occ = {};
+  DATA.turmas.forEach(function(tur, ti) {
+    var tu = tur.turno==='MATUTINO'?'MANHA':'TARDE';
+    tur.slots.forEach(function(slot, si) {
+      slot.row.forEach(function(cell, di) {
+        var ck = ti+'|'+si+'|'+di;
+        var ed = valSel(ck);
+        if (!ed) return;
+        if (!occ[ed]) occ[ed] = {};
+        if (!occ[ed][tu]) occ[ed][tu] = [];
+        var ofi = valOfi(ck) || cell.oficina;
+        occ[ed][tu].push({dia: di, si: si, turma: tur.key, seg: tur.segmento,
+                          oficina: ofi, eixo: EIXO_OFICINA[ofi] || cell.eixo});
+      });
+    });
+  });
+  EDUC.forEach(function(ed) {
+    var m = DATA.metas[ed] || {};
+    ['MANHA','TARDE'].forEach(function(tu) {
+      var info = m[tu];
+      if (!info) return;
+      if (!info.ofic && !info.multi && !info.plan) return;
+      var ocs = (occ[ed] && occ[ed][tu]) || [];
+      var contSeg = {};
+      ocs.forEach(function(o){ contSeg[o.seg] = (contSeg[o.seg]||0)+1; });
+      var seg = Object.keys(contSeg).sort(function(a,b){ return (contSeg[b]||0)-(contSeg[a]||0); })[0] || 'Infancia';
+      var times = SLOTS_SEG[seg+'|'+tu] || ['7h50 - 8h40','8h40 - 9h30','9h30 - 10h20'];
+      var mapa = {};
+      ocs.forEach(function(o){ mapa[o.dia+'|'+o.si] = o; });
+      var metaOfi = info.ofic||0, metaMulti = info.multi||0, metaPlan = info.plan||0;
+      var multiAlvo = metaMulti, planRest = metaPlan;
+      var card = document.createElement('div');
+      card.className = 'card';
+      var h = '<h3>' + ed + ' <span class="turno">' + tu + '</span></h3>';
+      h += '<div style="font-size:11px;color:#666;margin-bottom:6px;">Oficinas: ' + ocs.length + '/' + metaOfi + ' | Multi: ' + metaMulti + ' | Planejamento: ' + metaPlan + '</div>';
+      h += '<table><tr><th class="hora">Horário</th>';
+      DIA_NOME.forEach(function(d){ h += '<th class="day">' + d + '</th>'; });
+      h += '</tr>';
+      times.forEach(function(t, si) {
+        h += '<tr><th class="hora">' + t + '</th>';
+        DIA_NOME.forEach(function(_, di) {
+          var o = mapa[di+'|'+si];
+          if (o) {
+            h += '<td><div class="cell eixo-' + (o.eixo||'EMANCIPACAO') + '"><div class="ofi">' + o.turma + '</div><div style="font-size:10px">' + o.oficina + '</div></div></td>';
+          } else if (multiAlvo > 0) {
+            multiAlvo--;
+            h += '<td><div class="cell-multi">MULTI</div></td>';
+          } else if (planRest > 0) {
+            planRest--;
+            h += '<td><div class="cell-plan">PLANEJAMENTO</div></td>';
+          } else {
+            h += '<td></td>';
+          }
+        });
+        h += '</tr>';
+      });
+      h += '</table>';
+      card.innerHTML = h;
+      cont.appendChild(card);
+    });
+  });
+}
+
+function mostrarAba(aba) {
+  document.getElementById('turmas').style.display = (aba==='turmas') ? 'flex' : 'none';
+  document.getElementById('porEducador').style.display = (aba==='educ') ? 'flex' : 'none';
+  if (aba === 'educ') buildEducadores();
 }
 
 buildTurmas();
