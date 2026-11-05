@@ -42,6 +42,10 @@ aside { width:360px; position:sticky; top:14px; }
 .sum-line { display:flex; gap:12px; margin-top:8px; font-weight:700; font-size:13px; }
 .cargas { max-height:420px; overflow:auto; }
 .cab { display:flex; justify-content:space-between; font-size:11px; color:#666; font-weight:600; padding:2px 0; border-bottom:2px solid #b9c4cf; }
+.carga-tab { width:100%; border-collapse:collapse; font-size:11.5px; }
+.carga-tab th { text-align:left; font-size:10.5px; color:#666; font-weight:600; padding:3px 4px; border-bottom:2px solid #b9c4cf; }
+.carga-tab td { padding:3px 4px; border-bottom:1px dotted #d0d7df; }
+.carga-tab td.num { text-align:right; white-space:nowrap; }
 </style></head><body>
 <header>
   <h1>Grade 2027 — Verdescola <span style="color:#a9d5b8;font-size:12px">(Infância e Adolescência)</span></h1>
@@ -275,7 +279,11 @@ function mostraCarga() {
       acc[ed][turnoReal]++;
     }); });
   });
-  let html = '<div class="cab"><span>Educador</span><span>M | T (real/meta)</span><span>Multi</span><span>Total / meta</span></div>';
+  let html = '<table class="carga-tab"><colgroup>'
+    + '<col style="width:130px"><col style="width:120px"><col style="width:50px"><col style="width:130px">'
+    + '</colgroup><thead><tr>'
+    + '<th>Educador</th><th>M | T (real/meta)</th><th>Multi</th><th>Total / meta</th>'
+    + '</tr></thead><tbody>';
   EDUC.forEach(ed => {
     const nM = (acc[ed]||{}).MANHA||0, nT = (acc[ed]||{}).TARDE||0;
     const m = DATA.metas[ed] || {};
@@ -293,8 +301,9 @@ function mostraCarga() {
       st = '<span class="diff">'+tot+'/'+meta+' ('+(dif>0?'faltam ':'sobram ')+Math.abs(dif)+')</span>';
     }
     const mtxt = '<span>'+(oM? nM+'/'+oM : nM)+' | '+(oT? nT+'/'+oT : nT)+'</span>';
-    html += '<div class="linha"><span>'+ed+'</span>'+mtxt+'<span class="mute">'+multiTot+'</span><span>'+st+'</span></div>';
+    html += '<tr><td>'+ed+'</td><td class="num">'+mtxt+'</td><td class="num">'+multiTot+'</td><td class="num">'+st+'</td></tr>';
   });
+  html += '</tbody></table>';
   document.getElementById('carga').innerHTML = html;
 }
 
