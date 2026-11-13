@@ -8,10 +8,9 @@ header { background:#176437; color:#fff; padding:14px 22px; display:flex; justif
 header h1 { margin:0; font-size:18px; }
 .controls { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 button { padding:7px 12px; border:none; border-radius:5px; cursor:pointer; font-weight:600; }
-.btn-primary { background:#3498db; color:#fff; }
 .btn-ok { background:#27ae60; color:#fff; }
-.btn-warn { background:#e67e22; color:#fff; }
-.btn-danger { background:#e74c3c; color:#fff; }
+.btn-rest { background:#e67e22; color:#fff; }
+.btn-warn2 { background:#9b59b6; color:#fff; }
 .legenda { display:flex; gap:14px; flex-wrap:wrap; padding:10px 22px; background:#fff; border-bottom:1px solid #cfd8e3; font-size:12.5px; }
 .legenda span { display:inline-flex; align-items:center; gap:6px; }
 .sw { width:16px; height:16px; border-radius:3px; border:1px solid #999; display:inline-block; }
@@ -24,39 +23,42 @@ table { border-collapse:collapse; font-size:11px; }
 th,td { border:1px solid #b9c4cf; padding:3px; text-align:left; vertical-align:top; min-width:150px; max-width:210px; }
 th.hora, th.day { background:#dde7f0; font-size:10.5px; }
 .cell { border-radius:4px; padding:4px; }
-.cell .ofi { font-weight:600; font-size:11px; margin-bottom:3px; }
 .cell .ofi-sel { width:100%; font-size:10.5px; font-weight:600; margin-bottom:3px; }
 .cell select { width:100%; font-size:11px; }
 .eixo-CONVIVENCIA { background:#73A186; }
 .eixo-PERTENCIMENTO { background:#8EAADB; }
 .eixo-AMPLIACAO { background:#FFC000; }
 .eixo-EMANCIPACAO { background:#FFFFFF; border:1px solid #999; }
-.cell-multi { background:#C55A11; color:#fff; font-weight:700; text-align:center; padding:14px 4px; border-radius:4px; }
-.cell-plan { background:#7F7F7F; color:#fff; font-weight:700; text-align:center; padding:14px 4px; border-radius:4px; }
 .intervalo { background:#f2f2f2; text-align:center; font-weight:600; color:#777; letter-spacing:.4px; }
 .conf { outline:2px solid #e74c3c; }
 aside { width:360px; position:sticky; top:14px; }
 .painel { background:#fff; border:1px solid #cfd8e3; border-radius:10px; padding:12px; margin-bottom:14px; box-shadow:0 2px 6px rgba(0,0,0,.07); }
 .painel h2 { margin:0 0 10px; font-size:15px; }
-.linha { display:flex; justify-content:space-between; gap:6px; padding:3px 0; border-bottom:1px dotted #d0d7df; font-size:12px; }
-.linha .diff { color:#e74c3c; font-weight:700; }
-.linha .okg { color:#27ae60; font-weight:700; }
-.linha .mute { color:#7f8c8d; }
 .sum-line { display:flex; gap:12px; margin-top:8px; font-weight:700; font-size:13px; }
 .cargas { max-height:420px; overflow:auto; }
-.cab { display:flex; justify-content:space-between; font-size:11px; color:#666; font-weight:600; padding:2px 0; border-bottom:2px solid #b9c4cf; }
 .carga-tab { width:100%; border-collapse:collapse; font-size:11.5px; }
 .carga-tab th { text-align:left; font-size:10.5px; color:#666; font-weight:600; padding:3px 4px; border-bottom:2px solid #b9c4cf; }
 .carga-tab td { padding:3px 4px; border-bottom:1px dotted #d0d7df; }
 .carga-tab td.num { text-align:right; white-space:nowrap; }
+#confLista { font-size:11.5px; max-height:220px; overflow:auto; padding-left:16px; }
+.semed-grid { display:flex; flex-wrap:wrap; gap:10px; }
+.semed-card { background:#fff; border:1px solid #cfd8e3; border-left:5px solid #9b59b6; border-radius:8px; padding:10px 12px; box-shadow:0 1px 4px rgba(0,0,0,.06); min-width:270px; max-width:360px; }
+.semed-card h4 { margin:0 0 6px; font-size:13px; display:flex; justify-content:space-between; align-items:center; }
+.semed-card .meta { font-size:11px; color:#555; margin-bottom:6px; line-height:1.5; }
+.semed-card .livres { font-size:11px; background:#f5f5f5; border-radius:5px; padding:5px 8px; }
+.semed-card .livres b { color:#176437; }
+.semed-card .livres .nenhum { color:#e74c3c; font-weight:600; }
+.semed-card .ofi { font-weight:600; font-size:11.5px; margin-bottom:3px; }
+.semed-dest { outline:3px solid #9b59b6; box-shadow:0 0 0 1px #9b59b6; position:relative; }
+.semed-badge { display:inline-block; font-size:8.5px; font-weight:700; color:#111; border:1px solid #7d3c98; border-radius:3px; padding:1px 4px; margin-bottom:2px; letter-spacing:.3px; }
+.semed-dim { opacity:.38; }
+.semed-dim select { pointer-events:none; }
 </style></head><body>
 <header>
   <h1>Grade 2027 — Verdescola <span style="color:#a9d5b8;font-size:12px">(Infância e Adolescência)</span></h1>
   <div class="controls">
-    <button class="btn-primary" onclick="gerarNovo()">Gerar novo</button>
-    <button class="btn-warn" onclick="undo()">Voltar ao anterior</button>
     <button class="btn-ok" onclick="exportar()">Exportar para Excel</button>
-    <button class="btn-danger" onclick="restaurar()">Restaurar</button>
+    <button class="btn-rest" onclick="restaurar()">Restaurar</button>
   </div>
 </header>
 <div class="legenda">
@@ -65,49 +67,39 @@ aside { width:360px; position:sticky; top:14px; }
   <span><i class="sw" style="background:#FFC000"></i> Ampliação de direitos</span>
   <span><i class="sw" style="background:#FFFFFF"></i> Emancipação</span>
 </div>
-<div style="padding:8px 22px;background:#fff;border-bottom:1px solid #cfd8e3;">
-  <button id="tabTurmas" class="btn-primary" onclick="mostrarAba('turmas')">Por turma</button>
-  <button id="tabEduc" class="btn-warn" onclick="mostrarAba('educ')">Por educador</button>
+<div style="padding:8px 22px;background:#fff;border-bottom:1px solid #cfd8e3;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+  <button id="tabTurmas" class="btn-ok" onclick="mostrarAba('turmas')">Por turma</button>
+  <button id="tabEduc" class="btn-rest" onclick="mostrarAba('educ')">Por educador</button>
+  <button id="tabSemEd" class="btn-warn2" onclick="mostrarAba('semed')">Sem educador</button>
 </div>
 <div class="main">
   <div class="turmas" id="turmas"></div>
   <div class="turmas" id="porEducador" style="display:none"></div>
+  <div id="semEdCont" style="display:none;flex:1;"></div>
   <aside>
     <div class="painel">
       <h2>Conflitos</h2>
       <div id="confResumo" class="sum-line"></div>
-      <ul id="confLista" style="font-size:11.5px;max-height:220px;overflow:auto;padding-left:16px;"></ul>
+      <ul id="confLista"></ul>
     </div>
     <div class="painel">
-      <h2>Carga por educador (real / meta)</h2>
-      <div style="font-size:11px;color:#666;margin-bottom:6px;">Meta = coluna OFICINA (aulas). Subs = horas livres (substituição). M | T = manhã | tarde.</div>
+      <h2>Oficinas por educador (M/T)</h2>
+      <div style="font-size:11px;color:#666;margin-bottom:6px;">M = manhã (matutino) | T = tarde (vespertino). Atualiza ao editar.</div>
       <div class="cargas" id="carga"></div>
     </div>
   </aside>
 </div>
 <script>
-const DATA = {"v": "2026-11-03", "fonte": "Horário_Grupos_Educadores_2027 _Rev3daniel.xlsx", "dias": ["SEG", "TER", "QUA", "QUI", "SEX"], "eixos": {"CONVIVENCIA": "verde", "PERTENCIMENTO": "azul", "AMPLIACAO": "amarelo", "EMANCIPACAO": "branco"}, "turmas": [{"key": "G1-A", "turno": "MATUTINO", "segmento": "Infancia", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "row": [{"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Corpo e movimento", "eixo": "CONVIVENCIA", "eds": ["MARIA"]}]}, {"time": "9h30 - 10h20", "start": 570, "end": 620, "row": [{"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}]}]}, {"key": "G1-B", "turno": "MATUTINO", "segmento": "Infancia", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "row": [{"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Corpo e movimento", "eixo": "CONVIVENCIA", "eds": ["MARIA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "row": [{"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}]}, {"time": "9h30 - 10h20", "start": 570, "end": 620, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}]}]}, {"key": "G2-A", "turno": "MATUTINO", "segmento": "Infancia", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}]}, {"time": "9h30 - 10h20", "start": 570, "end": 620, "row": [{"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"]}, {"oficina": "Inventar e Criar", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}]}]}, {"key": "G2-B", "turno": "MATUTINO", "segmento": "Infancia", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}, {"oficina": "Inventar e Criar", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"]}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}]}, {"time": "9h30 - 10h20", "start": 570, "end": 620, "row": [{"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}]}]}, {"key": "G3-A", "turno": "MATUTINO", "segmento": "Infancia", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}, {"oficina": "Artes Plasticas", "eixo": "PERTENCIMENTO", "eds": ["MARIA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"]}]}, {"time": "9h30 - 10h20", "start": 570, "end": 620, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}]}]}, {"key": "G3-B", "turno": "VESPERTINO", "segmento": "Infancia", "slots": [{"time": "13h50 - 14h50", "start": 830, "end": 890, "row": [{"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"]}, {"oficina": "Artes Plasticas", "eixo": "PERTENCIMENTO", "eds": []}]}, {"time": "15h10 - 16h00", "start": 910, "end": 960, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": []}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}]}, {"time": "16h00 - 17h00", "start": 960, "end": 1020, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": []}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}]}]}, {"key": "G4-A", "turno": "VESPERTINO", "segmento": "Infancia", "slots": [{"time": "13h50 - 14h50", "start": 830, "end": 890, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}]}, {"time": "15h10 - 16h00", "start": 910, "end": 960, "row": [{"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}, {"oficina": "Corpo e movimento - Teatro", "eixo": "CONVIVENCIA", "eds": ["PAMELA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}]}, {"time": "16h00 - 17h00", "start": 960, "end": 1020, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"]}]}]}, {"key": "G4-B", "turno": "VESPERTINO", "segmento": "Infancia", "slots": [{"time": "13h50 - 14h50", "start": 830, "end": 890, "row": [{"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}]}, {"time": "15h10 - 16h00", "start": 910, "end": 960, "row": [{"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Corpo e movimento - Teatro", "eixo": "CONVIVENCIA", "eds": ["PAMELA"]}]}, {"time": "16h00 - 17h00", "start": 960, "end": 1020, "row": [{"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}]}]}, {"key": "G5-A", "turno": "VESPERTINO", "segmento": "Infancia", "slots": [{"time": "13h50 - 14h50", "start": 830, "end": 890, "row": [{"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}]}, {"time": "15h10 - 16h00", "start": 910, "end": 960, "row": [{"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}]}, {"time": "16h00 - 17h00", "start": 960, "end": 1020, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}]}]}, {"key": "G5-B", "turno": "VESPERTINO", "segmento": "Infancia", "slots": [{"time": "13h50 - 14h50", "start": 830, "end": 890, "row": [{"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"]}]}, {"time": "15h10 - 16h00", "start": 910, "end": 960, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"]}, {"oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}]}, {"time": "16h00 - 17h00", "start": 960, "end": 1020, "row": [{"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"]}, {"oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"]}]}]}, {"key": "G8A", "turno": "MATUTINO", "segmento": "ADOLESCENCIA", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "row": [{"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"]}, {"oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Cidadania e Participação no mundo digital", "eixo": "EMANCIPACAO", "eds": []}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": []}]}, {"time": "9h50 - 11h00", "start": 590, "end": 660, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": []}]}]}, {"key": "G8B", "turno": "MATUTINO", "segmento": "ADOLESCENCIA", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "row": [{"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Cidadania e Participação no mundo digital", "eixo": "EMANCIPACAO", "eds": []}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}]}, {"time": "9h50 - 11h00", "start": 590, "end": 660, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}]}]}, {"key": "G9-A", "turno": "MATUTINO", "segmento": "ADOLESCENCIA", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "row": [{"oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "CANOAGEM", "eixo": "EMANCIPACAO", "eds": []}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": []}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "CANOAGEM", "eixo": "EMANCIPACAO", "eds": []}]}, {"time": "9h50 - 11h00", "start": 590, "end": 660, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": []}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}]}]}, {"key": "G6-A", "turno": "VESPERTINO", "segmento": "ADOLESCENCIA", "slots": [{"time": "14h20 - 15h30", "start": 860, "end": 930, "row": [{"oficina": "Comunicação Expressão e participação", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "Jogos Estratégias e desafios", "eixo": "CONVIVENCIA", "eds": []}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}, {"oficina": "XADREZ* PROJETO MAKER?", "eixo": "EMANCIPACAO", "eds": []}]}, {"time": "15h30 - 16h15", "start": 930, "end": 975, "row": [{"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"]}, {"oficina": "Voz da vila", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}]}, {"time": "16h15 - 17h00", "start": 975, "end": 1020, "row": [{"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"]}, {"oficina": "Voz da vila", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}]}]}, {"key": "G6-B", "turno": "VESPERTINO", "segmento": "ADOLESCENCIA", "slots": [{"time": "14h20 - 15h30", "start": 860, "end": 930, "row": [{"oficina": "Comunicação Expressão e participação", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "Jogos Estratégias e desafios", "eixo": "CONVIVENCIA", "eds": []}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "XADREZ* PROJETO MAKER?", "eixo": "EMANCIPACAO", "eds": []}]}, {"time": "15h30 - 16h15", "start": 930, "end": 975, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"]}, {"oficina": "Voz da vila", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"]}]}, {"time": "16h15 - 17h00", "start": 975, "end": 1020, "row": [{"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"]}, {"oficina": "Voz da vila", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"]}]}]}, {"key": "G7-A", "turno": "VESPERTINO", "segmento": "ADOLESCENCIA", "slots": [{"time": "14h20 - 15h30", "start": 860, "end": 930, "row": [{"oficina": "Jogos Estratégias e desafios", "eixo": "CONVIVENCIA", "eds": ["GABRIEL"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"]}, {"oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"]}, {"oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": []}]}, {"time": "15h30 - 16h15", "start": 930, "end": 975, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}]}, {"time": "16h15 - 17h00", "start": 975, "end": 1020, "row": [{"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"]}]}]}, {"key": "G7-B", "turno": "VESPERTINO", "segmento": "ADOLESCENCIA", "slots": [{"time": "14h20 - 15h30", "start": 860, "end": 930, "row": [{"oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": []}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"]}, {"oficina": "Jogos Estratégias e desafios", "eixo": "CONVIVENCIA", "eds": ["GABRIEL"]}, {"oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"]}]}, {"time": "15h30 - 16h15", "start": 930, "end": 975, "row": [{"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "CANOAGEM", "eixo": "EMANCIPACAO", "eds": []}]}, {"time": "16h15 - 17h00", "start": 975, "end": 1020, "row": [{"oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"]}, {"oficina": "Lingua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"]}, {"oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"]}, {"oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"]}, {"oficina": "CANOAGEM", "eixo": "EMANCIPACAO", "eds": []}]}]}], "metas": {"DAVIDSON": {"MANHA": {"ofic": 9, "multi": 6, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}, "TARDE": {"ofic": 6, "multi": 9, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}}, "GABRIEL": {"MANHA": {"ofic": 8, "multi": 7, "plan": 8, "reun": 2, "modelo": "5 MANHA 5 TARDE"}, "TARDE": {"ofic": 14, "multi": 1, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}}, "RAFAELLE": {"MANHA": {"ofic": 9, "multi": 6, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}, "TARDE": {"ofic": 12, "multi": 3, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}}, "DENNIS": {"MANHA": {"ofic": 6, "multi": 6, "plan": 6, "reun": 2, "modelo": "3 MANHA 4 TARDE"}, "TARDE": {"ofic": 10, "multi": 5, "plan": 6, "reun": 2, "modelo": "3 MANHA 4 TARDE"}}, "PAMELA": {"MANHA": {"ofic": 6, "multi": 9, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}, "TARDE": {"ofic": 14, "multi": 1, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}}, "DANIEL": {"MANHA": {"ofic": 6, "multi": 9, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}, "TARDE": {"ofic": 8, "multi": 7, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}}, "SERGIO": {"MANHA": {"ofic": 6, "multi": 9, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}, "TARDE": {"ofic": 14, "multi": 1, "plan": 8, "reun": 2, "modelo": "3 MANHA 4 TARDE"}}, "NISQUELE": {"MANHA": {"ofic": 12, "multi": 3, "plan": 8, "reun": 2, "modelo": "5 MANHA 5 TARDE"}, "TARDE": {"ofic": 6, "multi": 9, "plan": 8, "reun": 2, "modelo": "5 MANHA 5 TARDE"}}, "DEBORA": {"MANHA": {"ofic": 6, "multi": 9, "plan": 8, "reun": 2, "modelo": "5 MANHA 5 TARDE"}, "TARDE": {"ofic": 12, "multi": 3, "plan": 8, "reun": 2, "modelo": "5 MANHA 5 TARDE"}}, "MARCELA": {"MANHA": {"ofic": 12, "multi": 3, "plan": 8, "reun": 2, "modelo": "5 MANHA 5 TARDE"}, "TARDE": {"ofic": 12, "multi": 3, "plan": 8, "reun": 2, "modelo": "5 MANHA 5 TARDE"}}, "JULIA DUARTE": {"MANHA": {"ofic": 4, "multi": 8, "plan": 6, "reun": 2, "modelo": "5 MANHA 5 TARDE"}, "TARDE": {"ofic": 10, "multi": 2, "plan": 6, "reun": 2, "modelo": "5 MANHA 5 TARDE"}}, "MILENA": {"MANHA": {"ofic": 10, "multi": 2, "plan": 6, "reun": 2, "modelo": "5 MANHA 5 TARDE"}, "TARDE": {"ofic": 6, "multi": 6, "plan": 6, "reun": 2, "modelo": "5 MANHA 5 TARDE"}}, "ANANDA": {"MANHA": {"ofic": 12, "multi": 3, "plan": 6, "reun": 2, "modelo": "5 MANHA 5 TARDE"}, "TARDE": {"ofic": 8, "multi": 7, "plan": 8, "reun": 2, "modelo": "5 MANHA 5 TARDE"}}}, "educadores": ["ANANDA", "CLEVERSON", "DANIEL", "DAVIDSON", "DEBORA", "DENNIS", "GABRIEL", "JULIA DUARTE", "LETICIA REINA", "MARCELA", "MARIA", "MILENA", "NISQUELE", "PAMELA", "RAFAELLE", "SERGIO"], "educ_horas": ["ANANDA", "DANIEL", "DAVIDSON", "DEBORA", "DENNIS", "GABRIEL", "JULIA DUARTE", "MARCELA", "MILENA", "NISQUELE", "PAMELA", "RAFAELLE", "SERGIO"], "opcionais": ["MARIA", "LETICIA REINA", "CLEVERSON"], "indisponiveis": {"DENNIS": [{"dia": "SEG", "turnos": ["MATUTINO"]}], "MILENA": [{"dia": "SEX", "turnos": ["VESPERTINO"]}, {"dia": "SEG", "turnos": ["MATUTINO"]}], "JULIA DUARTE": [{"dia": "SEX", "turnos": ["MATUTINO", "VESPERTINO"]}]}, "oficinas_disponiveis": ["Artes Plasticas", "CANOAGEM", "Cidadania e Participação no mundo digital", "Comunicação Expressão e participação", "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "Corpo e movimento", "Corpo e movimento - Teatro", "Expressão Artística e Comunitária", "Habilidades Motoras e Esportes", "Ingles e novas Culturas", "Inglese novas Culturas", "Inglês e Novas Culturas", "Inventar e Criar", "Jogos Estratégias e desafios", "Lingua Portuguesa: Fundamentos, textos e sentidos", "Matemática: Fundamentos e Resolução de Problemas", "Semeando Valores", "Territorio Meio Ambiente e Comunidade", "Voz da vila", "XADREZ* PROJETO MAKER?"]};
+const DATA = {"v": "2026-11-09", "fonte": "Horário_Grupos_Educadores_2027 _Rev3daniel (1).xlsx", "dias": ["SEG", "TER", "QUA", "QUI", "SEX"], "eixos": {"CONVIVENCIA": "verde", "PERTENCIMENTO": "azul", "AMPLIACAO": "amarelo", "EMANCIPACAO": "branco"}, "turmas": [{"key": "G1-A", "segmento": "Infancia", "turno": "MATUTINO", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "TER", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"], "nota": ""}, {"dia": "QUA", "oficina": "Corpo e movimento", "eixo": "CONVIVENCIA", "eds": ["MARIA"], "nota": ""}, {"dia": "QUI", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "SEX", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"], "nota": ""}, {"dia": "TER", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "QUA", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}, {"dia": "QUI", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "SEX", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}]}, {"time": "9h30 - 10h20", "start": 570, "end": 620, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "TER", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "QUA", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "QUI", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "SEX", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}]}, {"time": "10h20 - 10h40", "start": 620, "end": 640, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "10h40 - 11h00", "start": 640, "end": 660, "tipo": "rotina", "row": [{"dia": "SEG", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "QUA", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "SEX", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["NISQUELE"], "nota": ""}]}]}, {"key": "G1-B", "segmento": "Infancia", "turno": "MATUTINO", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "QUA", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"], "nota": ""}, {"dia": "QUI", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "SEX", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "QUA", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "QUI", "oficina": "Plantando Conexões", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "SEX", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}]}, {"time": "9h30 - 10h20", "start": 570, "end": 620, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "TER", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"], "nota": ""}, {"dia": "QUA", "oficina": "Corpo e movimento", "eixo": "CONVIVENCIA", "eds": ["MARIA"], "nota": ""}, {"dia": "QUI", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "SEX", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}]}, {"time": "10h20 - 10h40", "start": 620, "end": 640, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "10h40 - 11h00", "start": 640, "end": 660, "tipo": "rotina", "row": [{"dia": "SEG", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "QUA", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "SEX", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["NISQUELE"], "nota": ""}]}]}, {"key": "G2-A", "segmento": "Infancia", "turno": "MATUTINO", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "TER", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}, {"dia": "QUA", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "QUI", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "SEX", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "TER", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}, {"dia": "QUA", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "QUI", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "SEX", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}]}, {"time": "9h30 - 10h20", "start": 570, "end": 620, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}, {"dia": "TER", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUA", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUI", "oficina": "Inventar e Criar", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}, {"dia": "SEX", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}]}, {"time": "10h20 - 10h40", "start": 620, "end": 640, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "10h40 - 11h00", "start": 640, "end": 660, "tipo": "rotina", "row": [{"dia": "SEG", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARIA"], "nota": ""}, {"dia": "TER", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUA", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUI", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARIA"], "nota": ""}, {"dia": "SEX", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARIA"], "nota": ""}]}]}, {"key": "G2-B", "segmento": "Infancia", "turno": "MATUTINO", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}, {"dia": "TER", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "QUA", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUI", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}, {"dia": "SEX", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"], "nota": ""}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Inventar e Criar", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}, {"dia": "TER", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "QUA", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUI", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}, {"dia": "SEX", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}]}, {"time": "9h30 - 10h20", "start": 570, "end": 620, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"], "nota": ""}, {"dia": "TER", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}, {"dia": "QUA", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}, {"dia": "QUI", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "SEX", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}]}, {"time": "10h20 - 10h40", "start": 620, "end": 640, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "10h40 - 11h00", "start": 640, "end": 660, "tipo": "rotina", "row": [{"dia": "SEG", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARCELA"], "nota": ""}, {"dia": "TER", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARIA"], "nota": ""}, {"dia": "QUA", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARIA"], "nota": ""}, {"dia": "QUI", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARIA"], "nota": ""}, {"dia": "SEX", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARCELA"], "nota": ""}]}]}, {"key": "G3-A", "segmento": "Infancia", "turno": "MATUTINO", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}, {"dia": "QUA", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}, {"dia": "QUI", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}, {"dia": "SEX", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"], "nota": ""}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}, {"dia": "QUA", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}, {"dia": "QUI", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}, {"dia": "SEX", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"], "nota": ""}]}, {"time": "9h30 - 10h20", "start": 570, "end": 620, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Artes Plásticas", "eixo": "PERTENCIMENTO", "eds": ["MARIA"], "nota": ""}, {"dia": "TER", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"], "nota": ""}, {"dia": "QUA", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "QUI", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"], "nota": ""}, {"dia": "SEX", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}]}, {"time": "10h20 - 10h40", "start": 620, "end": 640, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "10h40 - 11h00", "start": 640, "end": 660, "tipo": "rotina", "row": [{"dia": "SEG", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MARIA"], "nota": ""}, {"dia": "TER", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["DEBORA"], "nota": ""}, {"dia": "QUA", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MILENA"], "nota": ""}, {"dia": "QUI", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["DEBORA"], "nota": ""}, {"dia": "SEX", "oficina": "Escovação+saída", "eixo": "OUTRO", "eds": ["MILENA"], "nota": ""}]}]}, {"key": "G3-B", "segmento": "Infancia", "turno": "VESPERTINO", "slots": [{"time": "13h50 - 14h50", "start": 830, "end": 890, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Artes Plásticas", "eixo": "PERTENCIMENTO", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"], "nota": ""}, {"dia": "QUA", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["NISQUELE"], "nota": ""}, {"dia": "SEX", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": [], "nota": ""}]}, {"time": "14h50 - 15h10", "start": 890, "end": 910, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "15h10 - 16h00", "start": 910, "end": 960, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "QUA", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "QUI", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "SEX", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}]}, {"time": "16h00 - 17h00", "start": 960, "end": 1020, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "QUA", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["NISQUELE"], "nota": ""}, {"dia": "QUI", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "SEX", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}]}]}, {"key": "G4-A", "segmento": "Infancia", "turno": "VESPERTINO", "slots": [{"time": "13h50 - 14h50", "start": 830, "end": 890, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "TER", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUA", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}, {"dia": "QUI", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "SEX", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["ANANDA"], "nota": ""}]}, {"time": "14h50 - 15h10", "start": 890, "end": 910, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "15h10 - 16h00", "start": 910, "end": 960, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"], "nota": ""}, {"dia": "TER", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "QUA", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "QUI", "oficina": "Corpo e movimento - Teatro", "eixo": "CONVIVENCIA", "eds": ["PAMELA"], "nota": ""}, {"dia": "SEX", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}]}, {"time": "16h00 - 17h00", "start": 960, "end": 1020, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "TER", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "QUA", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "QUI", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "SEX", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"], "nota": ""}]}]}, {"key": "G4-B", "segmento": "Infancia", "turno": "VESPERTINO", "slots": [{"time": "13h50 - 14h50", "start": 830, "end": 890, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "TER", "oficina": "Corpo e movimento - Teatro", "eixo": "CONVIVENCIA", "eds": ["PAMELA"], "nota": ""}, {"dia": "QUA", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "QUI", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["MILENA"], "nota": ""}, {"dia": "SEX", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}]}, {"time": "14h50 - 15h10", "start": 890, "end": 910, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "15h10 - 16h00", "start": 910, "end": 960, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "TER", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUA", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUI", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "SEX", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"], "nota": ""}]}, {"time": "16h00 - 17h00", "start": 960, "end": 1020, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "TER", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUA", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"], "nota": ""}, {"dia": "QUI", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["MARCELA"], "nota": ""}, {"dia": "SEX", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"], "nota": ""}]}]}, {"key": "G5-A", "segmento": "Infancia", "turno": "VESPERTINO", "slots": [{"time": "13h50 - 14h50", "start": 830, "end": 890, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": "* Manter 2 por causa da Baleia Verde\n*Por 2 pra desplugado - obs a finalidade"}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": "* Manter 2 por causa da Baleia Verde\n*Por 2 pra desplugado - obs a finalidade"}, {"dia": "QUA", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": "* Manter 2 por causa da Baleia Verde\n*Por 2 pra desplugado - obs a finalidade"}, {"dia": "QUI", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": "* Manter 2 por causa da Baleia Verde\n*Por 2 pra desplugado - obs a finalidade"}, {"dia": "SEX", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": "* Manter 2 por causa da Baleia Verde\n*Por 2 pra desplugado - obs a finalidade"}]}, {"time": "14h50 - 15h10", "start": 890, "end": 910, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "15h10 - 16h00", "start": 910, "end": 960, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"], "nota": ""}, {"dia": "TER", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "QUA", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"], "nota": ""}, {"dia": "QUI", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}, {"dia": "SEX", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}]}, {"time": "16h00 - 17h00", "start": 960, "end": 1020, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"], "nota": ""}, {"dia": "TER", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "QUA", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"], "nota": ""}, {"dia": "QUI", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}, {"dia": "SEX", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}]}]}, {"key": "G5-B", "segmento": "Infancia", "turno": "VESPERTINO", "slots": [{"time": "13h50 - 14h50", "start": 830, "end": 890, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"], "nota": ""}, {"dia": "TER", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}, {"dia": "QUA", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["SERGIO"], "nota": ""}, {"dia": "QUI", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"], "nota": ""}, {"dia": "SEX", "oficina": "Semeando Valores", "eixo": "CONVIVENCIA", "eds": ["DEBORA"], "nota": ""}]}, {"time": "14h50 - 15h10", "start": 890, "end": 910, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "15h10 - 16h00", "start": 910, "end": 960, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "TER", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}, {"dia": "QUA", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}, {"dia": "QUI", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "SEX", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": ""}]}, {"time": "16h00 - 17h00", "start": 960, "end": 1020, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "TER", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}, {"dia": "QUA", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DEBORA"], "nota": ""}, {"dia": "QUI", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["JULIA DUARTE"], "nota": ""}, {"dia": "SEX", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": ""}]}]}, {"key": "G8A", "segmento": "ADOLESCENCIA", "turno": "MATUTINO", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"], "nota": "Canoagem no SEGUNDO SEMESTRE - 15 PARTICIPANTES"}, {"dia": "TER", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"], "nota": "Canoagem no SEGUNDO SEMESTRE - 15 PARTICIPANTES"}, {"dia": "QUA", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": [], "nota": "Canoagem no SEGUNDO SEMESTRE - 15 PARTICIPANTES"}, {"dia": "QUI", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": [], "nota": "Canoagem no SEGUNDO SEMESTRE - 15 PARTICIPANTES"}, {"dia": "SEX", "oficina": "Cidadania e Participação no mundo digital", "eixo": "EMANCIPACAO", "eds": [], "nota": "Canoagem no SEGUNDO SEMESTRE - 15 PARTICIPANTES"}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": ""}, {"dia": "TER", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": ""}, {"dia": "QUA", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": ""}, {"dia": "QUI", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": ""}, {"dia": "SEX", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}]}, {"time": "9h30 - 9h50", "start": 570, "end": 590, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "9h50 - 11h00", "start": 590, "end": 660, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": ""}, {"dia": "TER", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": ""}, {"dia": "QUA", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": ""}, {"dia": "QUI", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": ""}, {"dia": "SEX", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}]}]}, {"key": "G8B", "segmento": "ADOLESCENCIA", "turno": "MATUTINO", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": "Canoagem no SEGUNDO SEMESTRE - 15 PARTICIPANTES"}, {"dia": "TER", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": "Canoagem no SEGUNDO SEMESTRE - 15 PARTICIPANTES"}, {"dia": "QUA", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": [], "nota": "Canoagem no SEGUNDO SEMESTRE - 15 PARTICIPANTES"}, {"dia": "QUI", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": [], "nota": "Canoagem no SEGUNDO SEMESTRE - 15 PARTICIPANTES"}, {"dia": "SEX", "oficina": "Cidadania e Participação no mundo digital", "eixo": "EMANCIPACAO", "eds": [], "nota": "Canoagem no SEGUNDO SEMESTRE - 15 PARTICIPANTES"}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": ""}, {"dia": "TER", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "QUA", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": ""}, {"dia": "QUI", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"], "nota": ""}, {"dia": "SEX", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": ""}]}, {"time": "9h30 - 9h50", "start": 570, "end": 590, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "9h50 - 11h00", "start": 590, "end": 660, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": ""}, {"dia": "TER", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "QUA", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": ""}, {"dia": "QUI", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"], "nota": ""}, {"dia": "SEX", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": ""}]}]}, {"key": "G9-A", "segmento": "ADOLESCENCIA", "turno": "MATUTINO", "slots": [{"time": "7h50 - 8h40", "start": 470, "end": 520, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": [], "nota": "canoagem segunda ou sexta, lembrar de não ser no msm dia do esporte"}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": "canoagem segunda ou sexta, lembrar de não ser no msm dia do esporte"}, {"dia": "QUA", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": "canoagem segunda ou sexta, lembrar de não ser no msm dia do esporte"}, {"dia": "QUI", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": "canoagem segunda ou sexta, lembrar de não ser no msm dia do esporte"}, {"dia": "SEX", "oficina": "CANOAGEM", "eixo": "EMANCIPACAO", "eds": [], "nota": "canoagem segunda ou sexta, lembrar de não ser no msm dia do esporte"}]}, {"time": "8h40 - 9h30", "start": 520, "end": 570, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Construindo a própria trajetória", "eixo": "EMANCIPACAO", "eds": ["LETICIA REINA"], "nota": ""}, {"dia": "TER", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"], "nota": ""}, {"dia": "QUA", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "QUI", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "CANOAGEM", "eixo": "EMANCIPACAO", "eds": [], "nota": ""}]}, {"time": "9h30 - 9h50", "start": 570, "end": 590, "tipo": "intervalo", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "9h50 - 11h00", "start": 590, "end": 660, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"], "nota": ""}, {"dia": "TER", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": ""}, {"dia": "QUA", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "QUI", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": ""}, {"dia": "SEX", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": ""}]}]}, {"key": "G6-A", "segmento": "ADOLESCENCIA", "turno": "VESPERTINO", "slots": [{"time": "13h50 - 14h20", "start": 800, "end": 830, "tipo": "almoco", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "14h20 - 15h30", "start": 830, "end": 930, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Comunicação Expressão e participação", "eixo": "AMPLIACAO", "eds": [], "nota": "SEMESTRAL ENTRE EXPRESSÃO Artistica E territorio"}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": "SEMESTRAL ENTRE EXPRESSÃO Artistica E territorio"}, {"dia": "QUA", "oficina": "Jogos Estratégias e desafios", "eixo": "CONVIVENCIA", "eds": [], "nota": "SEMESTRAL ENTRE EXPRESSÃO Artistica E territorio"}, {"dia": "QUI", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": "SEMESTRAL ENTRE EXPRESSÃO Artistica E territorio"}, {"dia": "SEX", "oficina": "XADREZ* PROJETO MAKER?", "eixo": "EMANCIPACAO", "eds": [], "nota": "SEMESTRAL ENTRE EXPRESSÃO Artistica E territorio"}]}, {"time": "15h30 - 16h15", "start": 930, "end": 975, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"], "nota": ""}, {"dia": "TER", "oficina": "Voz da vila", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}, {"dia": "QUA", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}, {"dia": "QUI", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": ""}, {"dia": "SEX", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": ""}]}, {"time": "16h15 - 17h00", "start": 975, "end": 1020, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"], "nota": "dividir com fotografia"}, {"dia": "TER", "oficina": "Voz da vila", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": "dividir com fotografia"}, {"dia": "QUA", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": "dividir com fotografia"}, {"dia": "QUI", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": "dividir com fotografia"}, {"dia": "SEX", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": "dividir com fotografia"}]}]}, {"key": "G6-B", "segmento": "ADOLESCENCIA", "turno": "VESPERTINO", "slots": [{"time": "13h50 - 14h20", "start": 800, "end": 830, "tipo": "almoco", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "14h20 - 15h30", "start": 830, "end": 930, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Comunicação Expressão e participação", "eixo": "AMPLIACAO", "eds": [], "nota": "SEMESTRAL ENTRE EXPRESSÃO E territorio"}, {"dia": "TER", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": "SEMESTRAL ENTRE EXPRESSÃO E territorio"}, {"dia": "QUA", "oficina": "Jogos Estratégias e desafios", "eixo": "CONVIVENCIA", "eds": [], "nota": "SEMESTRAL ENTRE EXPRESSÃO E territorio"}, {"dia": "QUI", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": "SEMESTRAL ENTRE EXPRESSÃO E territorio"}, {"dia": "SEX", "oficina": "XADREZ* PROJETO MAKER?", "eixo": "EMANCIPACAO", "eds": [], "nota": "SEMESTRAL ENTRE EXPRESSÃO E territorio"}]}, {"time": "15h30 - 16h15", "start": 930, "end": 975, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": ""}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": ""}, {"dia": "QUA", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": ""}, {"dia": "QUI", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"], "nota": ""}, {"dia": "SEX", "oficina": "Voz da vila", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}]}, {"time": "16h15 - 17h00", "start": 975, "end": 1020, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": "dividir com fotografia"}, {"dia": "TER", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": "dividir com fotografia"}, {"dia": "QUA", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": "dividir com fotografia"}, {"dia": "QUI", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["DAVIDSON"], "nota": "dividir com fotografia"}, {"dia": "SEX", "oficina": "Voz da vila", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": "dividir com fotografia"}]}]}, {"key": "G7-A", "segmento": "ADOLESCENCIA", "turno": "VESPERTINO", "slots": [{"time": "13h50 - 14h20", "start": 800, "end": 830, "tipo": "almoco", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "14h20 - 15h30", "start": 830, "end": 930, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Jogos Estratégias e desafios", "eixo": "CONVIVENCIA", "eds": ["GABRIEL"], "nota": ""}, {"dia": "TER", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": ""}, {"dia": "QUA", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": ""}, {"dia": "SEX", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": [], "nota": ""}]}, {"time": "15h30 - 16h15", "start": 930, "end": 975, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": "SEMESTRAL ENTRE CANOAGEM"}, {"dia": "TER", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": "SEMESTRAL ENTRE CANOAGEM"}, {"dia": "QUA", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": "SEMESTRAL ENTRE CANOAGEM"}, {"dia": "QUI", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": "SEMESTRAL ENTRE CANOAGEM"}, {"dia": "SEX", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": "SEMESTRAL ENTRE CANOAGEM"}]}, {"time": "16h15 - 17h00", "start": 975, "end": 1020, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": ""}, {"dia": "TER", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": ""}, {"dia": "QUA", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}, {"dia": "QUI", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": ""}, {"dia": "SEX", "oficina": "Expressão Artística e Comunitária", "eixo": "PERTENCIMENTO", "eds": ["PAMELA"], "nota": ""}]}]}, {"key": "G7-B", "segmento": "ADOLESCENCIA", "turno": "VESPERTINO", "slots": [{"time": "13h50 - 14h20", "start": 800, "end": 830, "tipo": "almoco", "row": [{"dia": "SEG", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUA", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "", "eixo": "", "eds": [], "nota": ""}, {"dia": "SEX", "oficina": "", "eixo": "", "eds": [], "nota": ""}]}, {"time": "14h20 - 15h30", "start": 830, "end": 930, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": [], "nota": ""}, {"dia": "TER", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": ""}, {"dia": "QUA", "oficina": "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "eixo": "AMPLIACAO", "eds": [], "nota": ""}, {"dia": "QUI", "oficina": "Jogos Estratégias e desafios", "eixo": "CONVIVENCIA", "eds": ["GABRIEL"], "nota": ""}, {"dia": "SEX", "oficina": "Língua Portuguesa: Fundamentos, textos e sentidos", "eixo": "AMPLIACAO", "eds": ["RAFAELLE"], "nota": ""}]}, {"time": "15h30 - 16h15", "start": 930, "end": 975, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": "SEMESTRAL COM EXPRESSAO ARTISTICA"}, {"dia": "TER", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": "SEMESTRAL COM EXPRESSAO ARTISTICA"}, {"dia": "QUA", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": "SEMESTRAL COM EXPRESSAO ARTISTICA"}, {"dia": "QUI", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": "SEMESTRAL COM EXPRESSAO ARTISTICA"}, {"dia": "SEX", "oficina": "CANOAGEM", "eixo": "EMANCIPACAO", "eds": [], "nota": "SEMESTRAL COM EXPRESSAO ARTISTICA"}]}, {"time": "16h15 - 17h00", "start": 975, "end": 1020, "tipo": "oficinas", "row": [{"dia": "SEG", "oficina": "Matemática: Fundamentos e Resolução de Problemas", "eixo": "AMPLIACAO", "eds": ["GABRIEL"], "nota": ""}, {"dia": "TER", "oficina": "Habilidades Motoras e Esportes", "eixo": "CONVIVENCIA", "eds": ["CLEVERSON", "SERGIO"], "nota": ""}, {"dia": "QUA", "oficina": "Inglês e Novas Culturas", "eixo": "AMPLIACAO", "eds": ["DANIEL"], "nota": ""}, {"dia": "QUI", "oficina": "Territorio Meio Ambiente e Comunidade", "eixo": "PERTENCIMENTO", "eds": ["DENNIS"], "nota": ""}, {"dia": "SEX", "oficina": "CANOAGEM", "eixo": "EMANCIPACAO", "eds": [], "nota": ""}]}]}]};
 const EDUC = ["ANANDA", "CLEVERSON", "DANIEL", "DAVIDSON", "DEBORA", "DENNIS", "GABRIEL", "JULIA DUARTE", "LETICIA REINA", "MARCELA", "MARIA", "MILENA", "NISQUELE", "PAMELA", "RAFAELLE", "SERGIO"];
 const EIXOS = {"CONVIVENCIA": "verde", "PERTENCIMENTO": "azul", "AMPLIACAO": "amarelo", "EMANCIPACAO": "branco"};
-const OFICINAS = ["Corpo e movimento", "Corpo e movimento - Teatro", "Habilidades Motoras e Esportes", "Jogos Estratégias e desafios", "Semeando Valores", "Artes Plasticas", "Expressão Artística e Comunitária", "Inventar e Criar", "Territorio Meio Ambiente e Comunidade", "Comunicação Expressão e participação", "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "Inglês e Novas Culturas", "Lingua Portuguesa: Fundamentos, textos e sentidos", "Matemática: Fundamentos e Resolução de Problemas", "Voz da vila", "CANOAGEM", "Cidadania e Participação no mundo digital", "Ingles e novas Culturas", "Inglese novas Culturas", "XADREZ* PROJETO MAKER?"];
-const EIXO_OFICINA = {"Habilidades Motoras e Esportes": "CONVIVENCIA", "Semeando Valores": "CONVIVENCIA", "Lingua Portuguesa: Fundamentos, textos e sentidos": "AMPLIACAO", "Matemática: Fundamentos e Resolução de Problemas": "AMPLIACAO", "Inglês e Novas Culturas": "AMPLIACAO", "Expressão Artística e Comunitária": "PERTENCIMENTO", "Corpo e movimento": "CONVIVENCIA", "Territorio Meio Ambiente e Comunidade": "PERTENCIMENTO", "Inventar e Criar": "PERTENCIMENTO", "Artes Plasticas": "PERTENCIMENTO", "Corpo e movimento - Teatro": "CONVIVENCIA", "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro": "AMPLIACAO", "Cidadania e Participação no mundo digital": "EMANCIPACAO", "CANOAGEM": "EMANCIPACAO", "Comunicação Expressão e participação": "AMPLIACAO", "Jogos Estratégias e desafios": "CONVIVENCIA", "XADREZ* PROJETO MAKER?": "EMANCIPACAO", "Voz da vila": "AMPLIACAO", "Ingles e novas Culturas": "EMANCIPACAO", "Inglese novas Culturas": "EMANCIPACAO"};
+const OFICINAS = ["Corpo e movimento", "Corpo e movimento - Teatro", "Habilidades Motoras e Esportes", "Jogos Estratégias e desafios", "Semeando Valores", "Artes Plásticas", "Expressão Artística e Comunitária", "Inventar e Criar", "Plantando Conexões", "Territorio Meio Ambiente e Comunidade", "Comunicação Expressão e participação", "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro", "Inglês e Novas Culturas", "Língua Portuguesa: Fundamentos, textos e sentidos", "Matemática: Fundamentos e Resolução de Problemas", "Voz da vila", "CANOAGEM", "Cidadania e Participação no mundo digital", "Construindo a própria trajetória", "XADREZ* PROJETO MAKER?", "Escovação+saída"];
+const EIXO_OFICINA = {"Matemática: Fundamentos e Resolução de Problemas": "AMPLIACAO", "Semeando Valores": "CONVIVENCIA", "Corpo e movimento": "CONVIVENCIA", "Habilidades Motoras e Esportes": "CONVIVENCIA", "Língua Portuguesa: Fundamentos, textos e sentidos": "AMPLIACAO", "Expressão Artística e Comunitária": "PERTENCIMENTO", "Inglês e Novas Culturas": "AMPLIACAO", "Territorio Meio Ambiente e Comunidade": "PERTENCIMENTO", "Escovação+saída": "OUTRO", "Plantando Conexões": "PERTENCIMENTO", "Inventar e Criar": "PERTENCIMENTO", "Artes Plásticas": "PERTENCIMENTO", "Corpo e movimento - Teatro": "CONVIVENCIA", "Comunicação Expressão e participação - Fiscal do Sahy - Fique por Dentro": "AMPLIACAO", "Cidadania e Participação no mundo digital": "EMANCIPACAO", "CANOAGEM": "EMANCIPACAO", "Construindo a própria trajetória": "EMANCIPACAO", "Comunicação Expressão e participação": "AMPLIACAO", "Jogos Estratégias e desafios": "CONVIVENCIA", "XADREZ* PROJETO MAKER?": "EMANCIPACAO", "Voz da vila": "AMPLIACAO"};
 const diasOrd = ['SEG','TER','QUA','QUI','SEX'];
 const diasNome = {SEG:'Segunda',TER:'Terça',QUA:'Quarta',QUI:'Quinta',SEX:'Sexta'};
-var INTERVALOS = {
-  'Infancia|MATUTINO': [
-    {pos: 2, time: '10h20 - 10h40', label: 'Intervalo'},
-    {pos: 2, time: '10h40 - 11h00', label: 'Escovação + saída'}
-  ],
-  'Infancia|VESPERTINO': [
-    {pos: 0, time: '14h50 - 15h10', label: 'Intervalo'}
-  ],
-  'ADOLESCENCIA|MATUTINO': [
-    {pos: 1, time: '9h30 - 9h50', label: 'Intervalo'}
-  ],
-  'ADOLESCENCIA|VESPERTINO': [
-    {pos: -1, time: '13h50 - 14h20', label: 'Almoço'}
-  ]
-};
+const LABEL_TIPO = {intervalo:'Intervalo', rotina:'Escovação + saída', almoco:'Almoço'};
+const EIXO_STYLE_COR = {CONVIVENCIA:'#73A186', PERTENCIMENTO:'#8EAADB', AMPLIACAO:'#FFC000', EMANCIPACAO:'#FFFFFF'};
+const EIXO_NOME = {CONVIVENCIA:'Convivência', PERTENCIMENTO:'Pertencimento', AMPLIACAO:'Ampliação', EMANCIPACAO:'Emancipação'};
 
 function buildTurmas() {
   const cont = document.getElementById('turmas');
@@ -126,11 +118,13 @@ function buildTurmas() {
       let tbl = '<table><tr><th class="hora">Horário</th>';
       diasOrd.forEach(dd => tbl += '<th class="day">'+diasNome[dd]+'</th>');
       tbl += '</tr>';
-      var ints = INTERVALOS[tur.segmento + '|' + tur.turno] || [];
-      ints.filter(function(x){ return x.pos === -1; }).forEach(function(it){
-        tbl += '<tr><th class="hora">' + it.time + '</th><td colspan="5" class="intervalo">' + it.label + '</td></tr>';
-      });
       tur.slots.forEach((slot, si) => {
+        // slots que não são oficina: linha única de intervalo/rotina (só quando a turma tiver)
+        if (slot.tipo !== 'oficinas') {
+          const label = LABEL_TIPO[slot.tipo] || slot.tipo || '';
+          tbl += '<tr><th class="hora">'+slot.time+'</th><td colspan="5" class="intervalo">'+label+'</td></tr>';
+          return;
+        }
         tbl += '<tr><th class="hora">'+slot.time+'</th>';
         slot.row.forEach((cell, di) => {
           const ck = ti+'|'+si+'|'+di;
@@ -143,9 +137,6 @@ function buildTurmas() {
             + '</div></td>';
         });
         tbl += '</tr>';
-        ints.filter(function(x){ return x.pos === si; }).forEach(function(it){
-          tbl += '<tr><th class="hora">' + it.time + '</th><td colspan="5" class="intervalo">' + it.label + '</td></tr>';
-        });
       });
       tbl += '</table>';
       card.innerHTML = '<h3>'+tur.key+' <span class="turno">'+(tur.turno==='MATUTINO'?'MATUTINO':'VESPERTINO')+'</span></h3>' + tbl;
@@ -155,80 +146,7 @@ function buildTurmas() {
 }
 
 function valSel(ck) { const s=document.getElementById('sel-'+ck); return s?s.value:''; }
-
-let currentState = null;
-let undoStack = [];
-
-function capturarEstado() {
-  const st = {};
-  document.querySelectorAll('select[id^="ofi-"], select[id^="sel-"]').forEach(s => { st[s.id] = s.value; });
-  return st;
-}
-
-function pushUndo() {
-  if (currentState) {
-    undoStack.push(currentState);
-    if (undoStack.length > 100) undoStack.shift();
-  }
-  currentState = capturarEstado();
-}
-
-function edChanged(ck) {
-  pushUndo();
-  revalidate();
-}
-
-function undo() {
-  if (!undoStack.length) { alert('Nada para voltar.'); return; }
-  currentState = undoStack.pop();
-  for (const id in currentState) {
-    const el = document.getElementById(id);
-    if (el) el.value = currentState[id];
-  }
-  document.querySelectorAll('.cell').forEach(c => {
-    const ck = c.id.replace('cell-','');
-    const ofiEl = document.getElementById('ofi-'+ck);
-    const eixo = ofiEl ? (EIXO_OFICINA[ofiEl.value] || 'EMANCIPACAO') : 'EMANCIPACAO';
-    c.className = 'cell eixo-'+eixo;
-  });
-  revalidate();
-}
-
-function restaurar() {
-  if (confirm('Restaurar a grade padrão? As alterações desta sessão serão perdidas.')) {
-    location.reload();
-  }
-}
-
-function gerarNovo() {
-  pushUndo();
-  const mapa = {};
-  DATA.turmas.forEach(t => t.slots.forEach(s => s.row.forEach(c => {
-    if (c.oficina && c.eds.length) {
-      (mapa[c.oficina] = mapa[c.oficina] || new Set()).add(c.eds[0]);
-    }
-  })));
-  DATA.turmas.forEach((tur, ti) => {
-    tur.slots.forEach((slot, si) => { slot.row.forEach((cell, di) => {
-      const ck = ti+'|'+si+'|'+di;
-      const edSel = document.getElementById('sel-'+ck);
-      if (edSel.value) return;
-      const ofi = document.getElementById('ofi-'+ck).value;
-      const cands = Array.from(mapa[ofi] || []);
-      for (let i = cands.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [cands[i], cands[j]] = [cands[j], cands[i]];
-      }
-      for (const ed of cands) {
-        edSel.value = ed;
-        if (!conflitos().ed.has(ed)) break;
-        edSel.value = '';
-      }
-    }); });
-  });
-  currentState = capturarEstado();
-  revalidate();
-}
+function valOfi(ck) { const s=document.getElementById('ofi-'+ck); return s?s.value:''; }
 
 function ofiChanged(ck) {
   const sel = document.getElementById('ofi-'+ck);
@@ -237,8 +155,54 @@ function ofiChanged(ck) {
   const eixo = EIXO_OFICINA[ofi] || 'EMANCIPACAO';
   const cell = document.getElementById('cell-'+ck);
   cell.className = 'cell eixo-'+eixo;
-  pushUndo();
   revalidate();
+}
+
+function edChanged(ck) { revalidate(); }
+
+// ---- educadores LIVRES por horário (para células sem educador) ----
+function slotInfo(ck) {
+  const [ti, si, di] = ck.split('|').map(Number);
+  const tur = DATA.turmas[ti];
+  const slot = tur.slots[si];
+  return {tur, slot, cell: slot.row[di], dia: diasOrd[di]};
+}
+
+function ocupadosPorHorario() {
+  // (dia|start|end) -> Set(educadores ocupados naquele momento)
+  const occ = {};
+  DATA.turmas.forEach((tur, ti) => {
+    tur.slots.forEach((slot, si) => {
+      slot.row.forEach((cell, di) => {
+        const ed = valSel(ti+'|'+si+'|'+di);
+        if (!ed) return;
+        const key = diasOrd[di]+'|'+slot.start+'|'+slot.end;
+        (occ[key] = occ[key] || new Set()).add(ed);
+      });
+    });
+  });
+  return occ;
+}
+
+function atualizarEdLivres() {
+  const occ = ocupadosPorHorario();
+  document.querySelectorAll('select[id^="sel-"]').forEach(sel => {
+    const ck = sel.dataset.ck;
+    let info;
+    try { info = slotInfo(ck); } catch (e) { return; }
+    const key = info.dia+'|'+info.slot.start+'|'+info.slot.end;
+    const ocup = occ[key] || new Set();
+    const atual = sel.value;
+    let opts = '<option value="">— (sem educador)</option>';
+    EDUC.forEach(e => {
+      // só mostra LIVRES no horário — mas SEMPRE mantém o já selecionado (mesmo em conflito)
+      if (!ocup.has(e) || e === atual) {
+        opts += '<option value="'+e+'">'+e+'</option>';
+      }
+    });
+    sel.innerHTML = opts;
+    sel.value = atual;
+  });
 }
 
 function conflitos() {
@@ -266,6 +230,7 @@ function conflitos() {
 }
 
 function revalidate() {
+  atualizarEdLivres();
   document.querySelectorAll('.cell').forEach(c => c.classList.remove('conf'));
   const res = conflitos();
   DATA.turmas.forEach((tur, ti) => {
@@ -280,8 +245,7 @@ function revalidate() {
   document.getElementById('confResumo').innerHTML =
     '<span style="color:'+(res.unicas===0?'#27ae60':'#e74c3c')+'">'+res.unicas+' conflito(s)</span>';
   const ul = document.getElementById('confLista');
-  ul.innerHTML = (res.unicas===0 ? '<li style="color:green">Nenhum conflito</li>' : (function(){
-    const set = new Set();
+  ul.innerHTML = (res.unicas===0 ? '<li style="color:#27ae60">Nenhum conflito</li>' : (function(){
     const ev = {};
     DATA.turmas.forEach((tur, ti) => {
       tur.slots.forEach((slot, si) => { slot.row.forEach((cell, di) => {
@@ -291,6 +255,7 @@ function revalidate() {
         ev[key].push(ed+': '+tur.key+' '+diasOrd[di]+' '+slot.time);
       }); });
     });
+    const set = new Set();
     for(const k in ev) if(ev[k].length>1) ev[k].forEach(x=>set.add(x));
     let arr=[]; set.forEach(x=>arr.push('<li>'+x+'</li>'));
     return arr.join('');
@@ -298,6 +263,8 @@ function revalidate() {
   mostraCarga();
   var pe = document.getElementById('porEducador');
   if (pe && pe.style.display !== 'none') buildEducadores();
+  var se = document.getElementById('semEdCont');
+  if (se && se.style.display !== 'none') buildSemEd();
 }
 
 function mostraCarga() {
@@ -307,173 +274,25 @@ function mostraCarga() {
     tur.slots.forEach((slot, si) => { slot.row.forEach((cell, di) => {
       const ed = valSel(ti+'|'+si+'|'+di);
       if(!ed) return;
-      acc[ed] = acc[ed] || {MANHA:0, TARDE:0};
-      acc[ed][turnoReal]++;
+      acc[ed] = acc[ed] || {M:0, T:0};
+      acc[ed][turnoReal==='MANHA'?'M':'T']++;
     }); });
   });
-  let html = '<table class="carga-tab"><colgroup>'
-    + '<col style="width:130px"><col style="width:120px"><col style="width:50px"><col style="width:130px">'
-    + '</colgroup><thead><tr>'
-    + '<th>Educador</th><th>M | T (real/meta)</th><th>Subs</th><th>Total / meta</th>'
+  let html = '<table class="carga-tab"><thead><tr>'
+    + '<th>Educador</th><th class="num">M</th><th class="num">T</th><th class="num">Total</th>'
     + '</tr></thead><tbody>';
   EDUC.forEach(ed => {
-    const nM = (acc[ed]||{}).MANHA||0, nT = (acc[ed]||{}).TARDE||0;
-    const m = DATA.metas[ed] || {};
-    const oM = (m.MANHA||{}).ofic||0, oT = (m.TARDE||{}).ofic||0;
-    const mM = (m.MANHA||{}).multi||0, mT = (m.TARDE||{}).multi||0;
-    const tot = nM+nT, meta = oM+oT;
-    const multiTot = mM+mT;
-    let st;
-    if (!meta) {
-      st = '<span class="mute">manual</span>';
-    } else if (tot===meta) {
-      st = '<span class="okg">'+tot+'/'+meta+'</span>';
-    } else {
-      const dif = meta-tot;
-      st = '<span class="diff">'+tot+'/'+meta+' ('+(dif>0?'faltam ':'sobram ')+Math.abs(dif)+')</span>';
-    }
-    const mtxt = '<span>'+(oM? nM+'/'+oM : nM)+' | '+(oT? nT+'/'+oT : nT)+'</span>';
-    html += '<tr><td>'+ed+'</td><td class="num">'+mtxt+'</td><td class="num">'+multiTot+'</td><td class="num">'+st+'</td></tr>';
+    const nM = (acc[ed]||{}).M||0, nT = (acc[ed]||{}).T||0;
+    html += '<tr><td>'+ed+'</td><td class="num">'+nM+'</td><td class="num">'+nT+'</td><td class="num">'+(nM+nT)+'</td></tr>';
   });
   html += '</tbody></table>';
   document.getElementById('carga').innerHTML = html;
 }
 
-function escapeXml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function valOfi(ck) { const s=document.getElementById('ofi-'+ck); return s?s.value:''; }
-var NL = String.fromCharCode(10);
-function escapeXml2(s) {
-  var nlre = new RegExp(String.fromCharCode(10), 'g');
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(nlre,'&#10;');
-}
-
-function exportar() {
-  var EIXO_STYLE = {CONVIVENCIA:'conv', PERTENCIMENTO:'pert', AMPLIACAO:'ampl', EMANCIPACAO:'eman'};
-  var STYLES =
-    '<Style ss:ID="titulo"><Font ss:Bold="1" ss:Size="14"/><Interior ss:Color="#176437" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/></Borders></Style>'
-    + '<Style ss:ID="turma"><Font ss:Bold="1" ss:Size="12"/><Interior ss:Color="#DDE7F0" ss:Pattern="Solid"/><Alignment ss:Horizontal="Left" ss:Vertical="Center"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/></Borders></Style>'
-    + '<Style ss:ID="cab"><Font ss:Bold="1"/><Interior ss:Color="#DDE7F0" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
-    + '<Style ss:ID="hora"><Font ss:Bold="1"/><Alignment ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
-    + '<Style ss:ID="cel"><Alignment ss:WrapText="1" ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
-    + '<Style ss:ID="conv"><Interior ss:Color="#73A186" ss:Pattern="Solid"/><Alignment ss:WrapText="1" ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
-    + '<Style ss:ID="pert"><Interior ss:Color="#8EAADB" ss:Pattern="Solid"/><Alignment ss:WrapText="1" ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
-    + '<Style ss:ID="ampl"><Interior ss:Color="#FFC000" ss:Pattern="Solid"/><Alignment ss:WrapText="1" ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
-    + '<Style ss:ID="eman"><Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/><Alignment ss:WrapText="1" ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
-    + '<Style ss:ID="multi"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#C55A11" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
-    + '<Style ss:ID="plan"><Font ss:Bold="1" ss:Color="#FFFFFF"/><Interior ss:Color="#7F7F7F" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>';
-
-  // ---------- ABA 1: GRADE ----------
-  var g = '<Worksheet ss:Name="Grade 2027"><Table>';
-  g += '<Column ss:Width="90"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/>';
-  g += '<Row ss:Height="30"><Cell ss:MergeAcross="5" ss:StyleID="titulo"><Data ss:Type="String">GRADE 2027 &mdash; VERDESCOLA</Data></Cell></Row>';
-  DATA.turmas.forEach(function(tur, ti) {
-    var tx = tur.key + '  (' + (tur.turno==='MATUTINO'?'Matutino':'Vespertino') + ')';
-    g += '<Row ss:Height="22"><Cell ss:MergeAcross="5" ss:StyleID="turma"><Data ss:Type="String">' + escapeXml2(tx) + '</Data></Cell></Row>';
-    g += '<Row ss:Height="18"><Cell ss:StyleID="cab"><Data ss:Type="String">Horario</Data></Cell>'
-      + ['Segunda','Terça','Quarta','Quinta','Sexta'].map(function(d){ return '<Cell ss:StyleID="cab"><Data ss:Type="String">' + d + '</Data></Cell>'; }).join('')
-      + '</Row>';
-    tur.slots.forEach(function(slot, si) {
-      g += '<Row ss:Height="60"><Cell ss:StyleID="hora"><Data ss:Type="String">' + escapeXml2(slot.time) + '</Data></Cell>';
-      slot.row.forEach(function(cell, di) {
-        var ck = ti+'|'+si+'|'+di;
-        var ofi = valOfi(ck);
-        var ed = valSel(ck);
-        var eixo = EIXO_OFICINA[ofi] || (cell.eixo || 'EMANCIPACAO');
-        var st = EIXO_STYLE[eixo] || 'cel';
-        var txt = ofi || '';
-        if (ed) txt += NL + ed;
-        g += '<Cell ss:StyleID="' + st + '"><Data ss:Type="String">' + escapeXml2(txt) + '</Data></Cell>';
-      });
-      g += '</Row>';
-    });
-    g += '<Row ss:Height="8"><Cell/></Row>';
-  });
-  g += '</Table></Worksheet>';
-
-  // ---------- ABA 2: PLANEJAMENTO (mesmo layout da grade, por educador) ----------
-  var SLOTS_SEG = {};
-  DATA.turmas.forEach(function(t) {
-    var key = t.segmento + '|' + (t.turno==='MATUTINO'?'MANHA':'TARDE');
-    if (!SLOTS_SEG[key]) SLOTS_SEG[key] = t.slots.map(function(s){ return s.time; });
-  });
-  var DIA_NOME = ['Seg','Ter','Qua','Qui','Sex'];
-  var occ = {};
-  DATA.turmas.forEach(function(tur, ti) {
-    var tu = tur.turno==='MATUTINO'?'MANHA':'TARDE';
-    tur.slots.forEach(function(slot, si) {
-      slot.row.forEach(function(cell, di) {
-        var ck = ti+'|'+si+'|'+di;
-        var ed = valSel(ck);
-        if (!ed) return;
-        if (!occ[ed]) occ[ed] = {};
-        if (!occ[ed][tu]) occ[ed][tu] = [];
-        occ[ed][tu].push({dia: di, si: si, turma: tur.key, seg: tur.segmento,
-                          oficina: valOfi(ck) || cell.oficina, eixo: EIXO_OFICINA[valOfi(ck)] || cell.eixo});
-      });
-    });
-  });
-  var p = '<Worksheet ss:Name="Planejamento"><Table>';
-  p += '<Column ss:Width="90"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/>';
-  p += '<Row ss:Height="30"><Cell ss:MergeAcross="5" ss:StyleID="titulo"><Data ss:Type="String">CARGA POR EDUCADOR</Data></Cell></Row>';
-  EDUC.forEach(function(ed) {
-    var m = DATA.metas[ed] || {};
-    ['MANHA','TARDE'].forEach(function(tu) {
-      var info = m[tu];
-      var temOcs = !!(occ[ed] && occ[ed][tu] && occ[ed][tu].length);
-      if (!info && !temOcs) return;
-      if (info && !info.ofic && !info.multi && !info.plan && !temOcs) return;
-      var ocs = (occ[ed] && occ[ed][tu]) || [];
-      var contSeg = {};
-      ocs.forEach(function(o){ contSeg[o.seg] = (contSeg[o.seg]||0)+1; });
-      var seg = Object.keys(contSeg).sort(function(a,b){ return (contSeg[b]||0)-(contSeg[a]||0); })[0] || 'Infancia';
-      var times = SLOTS_SEG[seg+'|'+tu] || ['7h50 - 8h40','8h40 - 9h30','9h30 - 10h20'];
-      var mapa = {};
-      ocs.forEach(function(o){ mapa[o.dia+'|'+o.si] = o; });
-      var metaOfi = info ? (info.ofic||0) : 0, metaMulti = info ? (info.multi||0) : 0, metaPlan = info ? (info.plan||0) : 0;
-      var multiAlvo = metaMulti, planRest = metaPlan;
-      p += '<Row ss:Height="22"><Cell ss:MergeAcross="5" ss:StyleID="turma"><Data ss:Type="String">' + escapeXml2(ed + ' - ' + tu) + '</Data></Cell></Row>';
-      p += '<Row ss:Height="18"><Cell ss:MergeAcross="5" ss:StyleID="cel"><Data ss:Type="String">' + escapeXml2('Oficinas: ' + ocs.length + (info ? '/' + metaOfi : ' (sem meta)') + ' | Subs: ' + metaMulti + ' | Planejamento: ' + metaPlan) + '</Data></Cell></Row>';
-      p += '<Row ss:Height="18"><Cell ss:StyleID="cab"><Data ss:Type="String">Horario</Data></Cell>'
-        + ['Segunda','Terça','Quarta','Quinta','Sexta'].map(function(d){ return '<Cell ss:StyleID="cab"><Data ss:Type="String">' + d + '</Data></Cell>'; }).join('')
-        + '</Row>';
-      times.forEach(function(t, si) {
-        p += '<Row ss:Height="60"><Cell ss:StyleID="hora"><Data ss:Type="String">' + escapeXml2(t) + '</Data></Cell>';
-        DIA_NOME.forEach(function(_, di) {
-          var o = mapa[di+'|'+si];
-          if (o) {
-            var st = EIXO_STYLE[o.eixo] || 'cel';
-            p += '<Cell ss:StyleID="' + st + '"><Data ss:Type="String">' + escapeXml2(o.turma + ' | ' + o.oficina) + '</Data></Cell>';
-          } else if (multiAlvo > 0) {
-            multiAlvo--;
-            p += '<Cell ss:StyleID="multi"><Data ss:Type="String">SUBS</Data></Cell>';
-          } else if (planRest > 0) {
-            planRest--;
-            p += '<Cell ss:StyleID="plan"><Data ss:Type="String">PLANEJAMENTO</Data></Cell>';
-          } else {
-            p += '<Cell ss:StyleID="cel"><Data ss:Type="String"></Data></Cell>';
-          }
-        });
-        p += '</Row>';
-      });
-      p += '<Row ss:Height="8"><Cell/></Row>';
-    });
-  });
-  p += '</Table></Worksheet>';
-
-  var xml = '<?xml version="1.0" encoding="UTF-8"?>';
-  xml += '<?mso-application progid="Excel.Sheet"?>';
-  xml += '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
-  xml += '<Styles>' + STYLES + '</Styles>';
-  xml += g + p;
-  xml += '</Workbook>';
-  var blob = new Blob(['﻿' + xml], {type:'application/vnd.ms-excel'});
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'grade2027_exportada.xls';
-  a.click();
+function restaurar() {
+  if (confirm('Restaurar a grade inicial gerada? As alterações desta sessão serão perdidas.')) {
+    location.reload();
+  }
 }
 
 function calcSlotsSeg() {
@@ -508,25 +327,18 @@ function buildEducadores() {
     });
   });
   EDUC.forEach(function(ed) {
-    var m = DATA.metas[ed] || {};
     ['MANHA','TARDE'].forEach(function(tu) {
-      var info = m[tu];
-      var temOcs = !!(occ[ed] && occ[ed][tu] && occ[ed][tu].length);
-      if (!info && !temOcs) return;
-      if (info && !info.ofic && !info.multi && !info.plan && !temOcs) return;
       var ocs = (occ[ed] && occ[ed][tu]) || [];
+      if (!ocs.length) return;
       var contSeg = {};
       ocs.forEach(function(o){ contSeg[o.seg] = (contSeg[o.seg]||0)+1; });
       var seg = Object.keys(contSeg).sort(function(a,b){ return (contSeg[b]||0)-(contSeg[a]||0); })[0] || 'Infancia';
       var times = SLOTS_SEG[seg+'|'+tu] || ['7h50 - 8h40','8h40 - 9h30','9h30 - 10h20'];
       var mapa = {};
       ocs.forEach(function(o){ mapa[o.dia+'|'+o.si] = o; });
-      var metaOfi = info ? (info.ofic||0) : 0, metaMulti = info ? (info.multi||0) : 0, metaPlan = info ? (info.plan||0) : 0;
-      var multiAlvo = metaMulti, planRest = metaPlan;
       var card = document.createElement('div');
       card.className = 'card';
-      var h = '<h3>' + ed + ' <span class="turno">' + tu + '</span></h3>';
-      h += '<div style="font-size:11px;color:#666;margin-bottom:6px;">Oficinas: ' + ocs.length + (info ? '/' + metaOfi : ' (sem meta)') + ' | Subs: ' + metaMulti + ' | Planejamento: ' + metaPlan + '</div>';
+      var h = '<h3>' + ed + ' <span class="turno">' + tu + ' (' + ocs.length + ')' + '</span></h3>';
       h += '<table><tr><th class="hora">Horário</th>';
       DIA_NOME.forEach(function(d){ h += '<th class="day">' + d + '</th>'; });
       h += '</tr>';
@@ -535,13 +347,7 @@ function buildEducadores() {
         DIA_NOME.forEach(function(_, di) {
           var o = mapa[di+'|'+si];
           if (o) {
-            h += '<td><div class="cell eixo-' + (o.eixo||'EMANCIPACAO') + '"><div class="ofi">' + o.turma + '</div><div style="font-size:10px">' + o.oficina + '</div></div></td>';
-          } else if (multiAlvo > 0) {
-            multiAlvo--;
-            h += '<td><div class="cell-multi">SUBS</div></td>';
-          } else if (planRest > 0) {
-            planRest--;
-            h += '<td><div class="cell-plan">PLANEJAMENTO</div></td>';
+            h += '<td><div class="cell eixo-' + (o.eixo||'EMANCIPACAO') + '"><div class="ofi-sel" style="margin:0;font-weight:600;">' + o.turma + '</div><div style="font-size:10px">' + o.oficina + '</div></div></td>';
           } else {
             h += '<td></td>';
           }
@@ -555,13 +361,198 @@ function buildEducadores() {
   });
 }
 
+function buildSemEd() {
+  const cont = document.getElementById('semEdCont');
+  if (!cont) return;
+  const occ = ocupadosPorHorario();
+  let nSem = 0;
+  DATA.turmas.forEach((tur, ti) => {
+    tur.slots.forEach((slot, si) => {
+      if (slot.tipo !== 'oficinas') return;
+      slot.row.forEach((cell, di) => {
+        const ck = ti+'|'+si+'|'+di;
+        if (!cell.oficina) return;
+        if (!valSel(ck)) nSem++;
+      });
+    });
+  });
+
+  let html = '<div style="width:100%;margin:0 0 10px;font-size:13px;color:#555;">'
+    + '<b>'+nSem+'</b> oficina(s) sem educador — células destacadas em roxo (mesmo layout da aba Por turma).</div>';
+  if (!nSem) {
+    cont.innerHTML = html + '<div style="background:#27ae60;color:#fff;border-radius:8px;padding:14px;font-weight:600;">✅ Nenhuma oficina sem educador!</div>';
+    return;
+  }
+
+  const segs = {};
+  DATA.turmas.forEach((t, gti) => { (segs[t.segmento] = segs[t.segmento] || []).push(gti); });
+  Object.keys(segs).forEach(seg => {
+    html += '<h2 style="width:100%;margin:10px 0 2px;border-bottom:2px solid #176437;">'+seg.toUpperCase()+'</h2>';
+    segs[seg].forEach(gti => {
+      const tur = DATA.turmas[gti];
+      const ti = gti;
+      let tbl = '<table><tr><th class="hora">Horário</th>';
+      diasOrd.forEach(dd => tbl += '<th class="day">'+diasNome[dd]+'</th>');
+      tbl += '</tr>';
+      tur.slots.forEach((slot, si) => {
+        if (slot.tipo !== 'oficinas') {
+          const label = LABEL_TIPO[slot.tipo] || slot.tipo || '';
+          tbl += '<tr><th class="hora">'+slot.time+'</th><td colspan="5" class="intervalo">'+label+'</td></tr>';
+          return;
+        }
+        tbl += '<tr><th class="hora">'+slot.time+'</th>';
+        slot.row.forEach((cell, di) => {
+          const ck = ti+'|'+si+'|'+di;
+          const eixo = cell.eixo || 'EMANCIPACAO';
+          const semEd = !valSel(ck);
+          // célula em destaque (roxo) quando sem educador; senão esmaecida para dar contraste
+          let classe = 'cell eixo-'+eixo + (semEd ? ' semed-dest' : ' semed-dim');
+          let badge = semEd ? '<div class="semed-badge" style="background:'+EIXO_STYLE_COR[eixo]+';">SEM EDUC.</div>' : '';
+          let edOpts = '<option value="">—</option>' + EDUC.map(e => '<option value="'+e+'" '+(cell.eds[0]===e?'selected':'')+'>'+e+'</option>').join('');
+          let ofiOpts = OFICINAS.map(o => '<option value="'+o.replace(/"/g,'&quot;')+'" '+(o===cell.oficina?'selected':'')+'>'+o+'</option>').join('');
+          tbl += '<td><div class="'+classe+'" id="cell-'+ck+'">'
+            + badge
+            + '<select class="ofi-sel" autocomplete="off" id="ofi-'+ck+'" data-ck="'+ck+'" onchange="ofiChanged(this.dataset.ck)">'+ofiOpts+'</select>'
+            + '<select autocomplete="off" id="sel-'+ck+'" data-ck="'+ck+'" onchange="edChanged(this.dataset.ck)">'+edOpts+'</select>'
+            + '</div></td>';
+        });
+        tbl += '</tr>';
+      });
+      html += '<div class="card" style="margin-top:8px;"><h3>'+tur.key+' <span class="turno">'+(tur.turno==='MATUTINO'?'MATUTINO':'VESPERTINO')+'</span></h3>' + tbl + '</div>';
+    });
+  });
+  cont.innerHTML = html;
+}
+
 function mostrarAba(aba) {
   document.getElementById('turmas').style.display = (aba==='turmas') ? 'flex' : 'none';
   document.getElementById('porEducador').style.display = (aba==='educ') ? 'flex' : 'none';
+  document.getElementById('semEdCont').style.display = (aba==='semed') ? 'flex' : 'none';
   if (aba === 'educ') buildEducadores();
+  if (aba === 'semed') buildSemEd();
+}
+
+function escapeXml(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+var NL = String.fromCharCode(10);
+function escapeXml2(s) {
+  var nlre = new RegExp(String.fromCharCode(10), 'g');
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(nlre,'&#10;');
+}
+
+function exportar() {
+  var EIXO_STYLE = {CONVIVENCIA:'conv', PERTENCIMENTO:'pert', AMPLIACAO:'ampl', EMANCIPACAO:'eman'};
+  var STYLES =
+    '<Style ss:ID="titulo"><Font ss:Bold="1" ss:Size="14"/><Interior ss:Color="#176437" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/></Borders></Style>'
+    + '<Style ss:ID="turma"><Font ss:Bold="1" ss:Size="12"/><Interior ss:Color="#DDE7F0" ss:Pattern="Solid"/><Alignment ss:Horizontal="Left" ss:Vertical="Center"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="2"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="2"/></Borders></Style>'
+    + '<Style ss:ID="cab"><Font ss:Bold="1"/><Interior ss:Color="#DDE7F0" ss:Pattern="Solid"/><Alignment ss:Horizontal="Center" ss:Vertical="Center"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
+    + '<Style ss:ID="hora"><Font ss:Bold="1"/><Alignment ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
+    + '<Style ss:ID="cel"><Alignment ss:WrapText="1" ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
+    + '<Style ss:ID="conv"><Interior ss:Color="#73A186" ss:Pattern="Solid"/><Alignment ss:WrapText="1" ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
+    + '<Style ss:ID="pert"><Interior ss:Color="#8EAADB" ss:Pattern="Solid"/><Alignment ss:WrapText="1" ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
+    + '<Style ss:ID="ampl"><Interior ss:Color="#FFC000" ss:Pattern="Solid"/><Alignment ss:WrapText="1" ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>'
+    + '<Style ss:ID="eman"><Interior ss:Color="#FFFFFF" ss:Pattern="Solid"/><Alignment ss:WrapText="1" ss:Vertical="Top"/><Borders><Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"/><Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"/></Borders></Style>';
+
+  // ---------- ABA 1: GRADE ----------
+  var g = '<Worksheet ss:Name="Grade 2027"><Table>';
+  g += '<Column ss:Width="90"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/>';
+  g += '<Row ss:Height="30"><Cell ss:MergeAcross="5" ss:StyleID="titulo"><Data ss:Type="String">GRADE 2027 &mdash; VERDESCOLA</Data></Cell></Row>';
+  DATA.turmas.forEach(function(tur, ti) {
+    var tx = tur.key + '  (' + (tur.turno==='MATUTINO'?'Matutino':'Vespertino') + ')';
+    g += '<Row ss:Height="22"><Cell ss:MergeAcross="5" ss:StyleID="turma"><Data ss:Type="String">' + escapeXml2(tx) + '</Data></Cell></Row>';
+    g += '<Row ss:Height="18"><Cell ss:StyleID="cab"><Data ss:Type="String">Horario</Data></Cell>'
+      + ['Segunda','Terça','Quarta','Quinta','Sexta'].map(function(d){ return '<Cell ss:StyleID="cab"><Data ss:Type="String">' + d + '</Data></Cell>'; }).join('')
+      + '</Row>';
+    tur.slots.forEach(function(slot, si) {
+      var lab = LABEL_TIPO[slot.tipo] || '';
+      if (slot.tipo !== 'oficinas') {
+        g += '<Row ss:Height="20"><Cell ss:StyleID="hora"><Data ss:Type="String">' + escapeXml2(slot.time) + '</Data></Cell>'
+          + '<Cell ss:MergeAcross="4" ss:StyleID="cab"><Data ss:Type="String">' + escapeXml2(lab) + '</Data></Cell></Row>';
+        return;
+      }
+      g += '<Row ss:Height="60"><Cell ss:StyleID="hora"><Data ss:Type="String">' + escapeXml2(slot.time) + '</Data></Cell>';
+      slot.row.forEach(function(cell, di) {
+        var ck = ti+'|'+si+'|'+di;
+        var ofi = valOfi(ck);
+        var ed = valSel(ck);
+        var eixo = EIXO_OFICINA[ofi] || (cell.eixo || 'EMANCIPACAO');
+        var st = EIXO_STYLE[eixo] || 'cel';
+        var txt = ofi || '';
+        if (ed) txt += NL + ed;
+        g += '<Cell ss:StyleID="' + st + '"><Data ss:Type="String">' + escapeXml2(txt) + '</Data></Cell>';
+      });
+      g += '</Row>';
+    });
+    g += '<Row ss:Height="8"><Cell/></Row>';
+  });
+  g += '</Table></Worksheet>';
+
+  // ---------- ABA 2: PLANEJAMENTO (por educador, sem metas) ----------
+  var SLOTS_SEG = calcSlotsSeg();
+  var DIA_NOME = ['Seg','Ter','Qua','Qui','Sex'];
+  var occ = {};
+  DATA.turmas.forEach(function(tur, ti) {
+    var tu = tur.turno==='MATUTINO'?'MANHA':'TARDE';
+    tur.slots.forEach(function(slot, si) {
+      slot.row.forEach(function(cell, di) {
+        var ck = ti+'|'+si+'|'+di;
+        var ed = valSel(ck);
+        if (!ed) return;
+        if (!occ[ed]) occ[ed] = {};
+        if (!occ[ed][tu]) occ[ed][tu] = [];
+        occ[ed][tu].push({dia: di, si: si, turma: tur.key, seg: tur.segmento,
+                          oficina: valOfi(ck) || cell.oficina, eixo: EIXO_OFICINA[valOfi(ck)] || cell.eixo});
+      });
+    });
+  });
+  var p = '<Worksheet ss:Name="Planejamento"><Table>';
+  p += '<Column ss:Width="90"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/>';
+  p += '<Row ss:Height="30"><Cell ss:MergeAcross="5" ss:StyleID="titulo"><Data ss:Type="String">CARGA POR EDUCADOR</Data></Cell></Row>';
+  EDUC.forEach(function(ed) {
+    ['MANHA','TARDE'].forEach(function(tu) {
+      var ocs = (occ[ed] && occ[ed][tu]) || [];
+      if (!ocs.length) return;
+      var contSeg = {};
+      ocs.forEach(function(o){ contSeg[o.seg] = (contSeg[o.seg]||0)+1; });
+      var seg = Object.keys(contSeg).sort(function(a,b){ return (contSeg[b]||0)-(contSeg[a]||0); })[0] || 'Infancia';
+      var times = SLOTS_SEG[seg+'|'+tu] || ['7h50 - 8h40','8h40 - 9h30','9h30 - 10h20'];
+      var mapa = {};
+      ocs.forEach(function(o){ mapa[o.dia+'|'+o.si] = o; });
+      p += '<Row ss:Height="22"><Cell ss:MergeAcross="5" ss:StyleID="turma"><Data ss:Type="String">' + escapeXml2(ed + ' - ' + tu) + '</Data></Cell></Row>';
+      p += '<Row ss:Height="18"><Cell ss:MergeAcross="5" ss:StyleID="cel"><Data ss:Type="String">' + escapeXml2('Oficinas: ' + ocs.length) + '</Data></Cell></Row>';
+      p += '<Row ss:Height="18"><Cell ss:StyleID="cab"><Data ss:Type="String">Horario</Data></Cell>'
+        + ['Segunda','Terça','Quarta','Quinta','Sexta'].map(function(d){ return '<Cell ss:StyleID="cab"><Data ss:Type="String">' + d + '</Data></Cell>'; }).join('')
+        + '</Row>';
+      times.forEach(function(t, si) {
+        p += '<Row ss:Height="60"><Cell ss:StyleID="hora"><Data ss:Type="String">' + escapeXml2(t) + '</Data></Cell>';
+        DIA_NOME.forEach(function(_, di) {
+          var o = mapa[di+'|'+si];
+          if (o) {
+            var st = EIXO_STYLE[o.eixo] || 'cel';
+            p += '<Cell ss:StyleID="' + st + '"><Data ss:Type="String">' + escapeXml2(o.turma + ' | ' + o.oficina) + '</Data></Cell>';
+          } else {
+            p += '<Cell ss:StyleID="cel"><Data ss:Type="String"></Data></Cell>';
+          }
+        });
+        p += '</Row>';
+      });
+      p += '<Row ss:Height="8"><Cell/></Row>';
+    });
+  });
+  p += '</Table></Worksheet>';
+
+  var xml = '<?xml version="1.0" encoding="UTF-8"?>';
+  xml += '<?mso-application progid="Excel.Sheet"?>';
+  xml += '<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">';
+  xml += '<Styles>' + STYLES + '</Styles>';
+  xml += g + p;
+  xml += '</Workbook>';
+  var blob = new Blob(['﻿' + xml], {type:'application/vnd.ms-excel'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'grade2027_exportada.xls';
+  a.click();
 }
 
 buildTurmas();
-currentState = capturarEstado();
 revalidate();
 </script></body></html>
