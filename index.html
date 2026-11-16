@@ -425,6 +425,7 @@ function buildSemEd() {
         });
         tbl += '</tr>';
       });
+      tbl += '</table>';  // sem isto o navegador joga o título da turma seguinte para cima desta tabela
       html += '<div class="card" style="margin-top:8px;"><h3>'+tur.key+' <span class="turno">'+(tur.turno==='MATUTINO'?'MATUTINO':'VESPERTINO')+'</span></h3>' + tbl + '</div>';
     });
   });
