@@ -304,6 +304,21 @@ function calcSlotsSeg() {
   return SLOTS_SEG;
 }
 
+// "13h50 - 14h50" -> [830, 890] (minutos desde 0h)
+function minutos(t) {
+  return String(t).split('-').map(function(p){ var m = p.trim().split('h'); return (+m[0])*60 + (+(m[1]||0)); });
+}
+// Linhas da semana de um educador = os horários REAIS das oficinas dele, em ordem de início.
+// (Infância e Adolescência têm horários diferentes à tarde; cada oficina vai na linha do seu horário.)
+function linhasEducador(ocs) {
+  var times = [];
+  ocs.forEach(function(o){ if (times.indexOf(o.time) < 0) times.push(o.time); });
+  times.sort(function(a,b){ var ma=minutos(a), mb=minutos(b); return (ma[0]-mb[0]) || (ma[1]-mb[1]); });
+  var mapa = {};
+  ocs.forEach(function(o){ var k = o.dia+'|'+times.indexOf(o.time); (mapa[k] = mapa[k] || []).push(o); });
+  return {times: times, mapa: mapa};
+}
+
 function buildEducadores() {
   var cont = document.getElementById('porEducador');
   if (!cont) return;
@@ -321,7 +336,7 @@ function buildEducadores() {
         if (!occ[ed]) occ[ed] = {};
         if (!occ[ed][tu]) occ[ed][tu] = [];
         var ofi = valOfi(ck) || cell.oficina;
-        occ[ed][tu].push({dia: di, si: si, turma: tur.key, seg: tur.segmento,
+        occ[ed][tu].push({dia: di, si: si, time: slot.time, turma: tur.key, seg: tur.segmento,
                           oficina: ofi, eixo: EIXO_OFICINA[ofi] || cell.eixo});
       });
     });
@@ -330,12 +345,7 @@ function buildEducadores() {
     ['MANHA','TARDE'].forEach(function(tu) {
       var ocs = (occ[ed] && occ[ed][tu]) || [];
       if (!ocs.length) return;
-      var contSeg = {};
-      ocs.forEach(function(o){ contSeg[o.seg] = (contSeg[o.seg]||0)+1; });
-      var seg = Object.keys(contSeg).sort(function(a,b){ return (contSeg[b]||0)-(contSeg[a]||0); })[0] || 'Infancia';
-      var times = SLOTS_SEG[seg+'|'+tu] || ['7h50 - 8h40','8h40 - 9h30','9h30 - 10h20'];
-      var mapa = {};
-      ocs.forEach(function(o){ mapa[o.dia+'|'+o.si] = o; });
+      var lin = linhasEducador(ocs), times = lin.times, mapa = lin.mapa;
       var card = document.createElement('div');
       card.className = 'card';
       var h = '<h3>' + ed + ' <span class="turno">' + tu + ' (' + ocs.length + ')' + '</span></h3>';
@@ -345,9 +355,12 @@ function buildEducadores() {
       times.forEach(function(t, si) {
         h += '<tr><th class="hora">' + t + '</th>';
         DIA_NOME.forEach(function(_, di) {
-          var o = mapa[di+'|'+si];
-          if (o) {
-            h += '<td><div class="cell eixo-' + (o.eixo||'EMANCIPACAO') + '"><div class="ofi-sel" style="margin:0;font-weight:600;">' + o.turma + '</div><div style="font-size:10px">' + o.oficina + '</div></div></td>';
+          var lst = mapa[di+'|'+si];
+          if (lst) {
+            // mais de uma oficina no mesmo horário = conflito: mostra todas, com borda vermelha
+            h += '<td>' + lst.map(function(o){
+              return '<div class="cell eixo-' + (o.eixo||'EMANCIPACAO') + (lst.length>1?' conf':'') + '"><div class="ofi-sel" style="margin:0;font-weight:600;">' + o.turma + '</div><div style="font-size:10px">' + o.oficina + '</div></div>';
+            }).join('') + '</td>';
           } else {
             h += '<td></td>';
           }
@@ -473,7 +486,7 @@ function exportar() {
   // ---------- ABA 1: GRADE ----------
   var g = '<Worksheet ss:Name="Grade 2027"><Table>';
   g += '<Column ss:Width="90"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/><Column ss:Width="160"/>';
-  g += '<Row ss:Height="30"><Cell ss:MergeAcross="5" ss:StyleID="titulo"><Data ss:Type="String">GRADE 2027 &mdash; VERDESCOLA</Data></Cell></Row>';
+  g += '<Row ss:Height="30"><Cell ss:MergeAcross="5" ss:StyleID="titulo"><Data ss:Type="String">GRADE 2027 — VERDESCOLA</Data></Cell></Row>';
   DATA.turmas.forEach(function(tur, ti) {
     var tx = tur.key + '  (' + (tur.turno==='MATUTINO'?'Matutino':'Vespertino') + ')';
     g += '<Row ss:Height="22"><Cell ss:MergeAcross="5" ss:StyleID="turma"><Data ss:Type="String">' + escapeXml2(tx) + '</Data></Cell></Row>';
@@ -517,7 +530,7 @@ function exportar() {
         if (!ed) return;
         if (!occ[ed]) occ[ed] = {};
         if (!occ[ed][tu]) occ[ed][tu] = [];
-        occ[ed][tu].push({dia: di, si: si, turma: tur.key, seg: tur.segmento,
+        occ[ed][tu].push({dia: di, si: si, time: slot.time, turma: tur.key, seg: tur.segmento,
                           oficina: valOfi(ck) || cell.oficina, eixo: EIXO_OFICINA[valOfi(ck)] || cell.eixo});
       });
     });
@@ -529,12 +542,7 @@ function exportar() {
     ['MANHA','TARDE'].forEach(function(tu) {
       var ocs = (occ[ed] && occ[ed][tu]) || [];
       if (!ocs.length) return;
-      var contSeg = {};
-      ocs.forEach(function(o){ contSeg[o.seg] = (contSeg[o.seg]||0)+1; });
-      var seg = Object.keys(contSeg).sort(function(a,b){ return (contSeg[b]||0)-(contSeg[a]||0); })[0] || 'Infancia';
-      var times = SLOTS_SEG[seg+'|'+tu] || ['7h50 - 8h40','8h40 - 9h30','9h30 - 10h20'];
-      var mapa = {};
-      ocs.forEach(function(o){ mapa[o.dia+'|'+o.si] = o; });
+      var lin = linhasEducador(ocs), times = lin.times, mapa = lin.mapa;
       p += '<Row ss:Height="22"><Cell ss:MergeAcross="5" ss:StyleID="turma"><Data ss:Type="String">' + escapeXml2(ed + ' - ' + tu) + '</Data></Cell></Row>';
       p += '<Row ss:Height="18"><Cell ss:MergeAcross="5" ss:StyleID="cel"><Data ss:Type="String">' + escapeXml2('Oficinas: ' + ocs.length) + '</Data></Cell></Row>';
       p += '<Row ss:Height="18"><Cell ss:StyleID="cab"><Data ss:Type="String">Horario</Data></Cell>'
@@ -543,10 +551,10 @@ function exportar() {
       times.forEach(function(t, si) {
         p += '<Row ss:Height="60"><Cell ss:StyleID="hora"><Data ss:Type="String">' + escapeXml2(t) + '</Data></Cell>';
         DIA_NOME.forEach(function(_, di) {
-          var o = mapa[di+'|'+si];
-          if (o) {
-            var st = EIXO_STYLE[o.eixo] || 'cel';
-            p += '<Cell ss:StyleID="' + st + '"><Data ss:Type="String">' + escapeXml2(o.turma + ' | ' + o.oficina) + '</Data></Cell>';
+          var lst = mapa[di+'|'+si];
+          if (lst) {
+            var st = EIXO_STYLE[lst[0].eixo] || 'cel';
+            p += '<Cell ss:StyleID="' + st + '"><Data ss:Type="String">' + escapeXml2(lst.map(function(o){ return o.turma + ' | ' + o.oficina; }).join(' // ')) + '</Data></Cell>';
           } else {
             p += '<Cell ss:StyleID="cel"><Data ss:Type="String"></Data></Cell>';
           }
