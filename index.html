@@ -403,17 +403,24 @@ function buildSemEd() {
         tbl += '<tr><th class="hora">'+slot.time+'</th>';
         slot.row.forEach((cell, di) => {
           const ck = ti+'|'+si+'|'+di;
-          const eixo = cell.eixo || 'EMANCIPACAO';
-          const semEd = !valSel(ck);
+          // SEMPRE lê o estado ATUAL da aba Por turma (fonte única), nunca o DATA original
+          const ofiAtual = valOfi(ck) || cell.oficina;
+          const edAtual = valSel(ck);
+          const eixo = EIXO_OFICINA[ofiAtual] || cell.eixo || 'EMANCIPACAO';
+          const semEd = !edAtual;
           // célula em destaque (roxo) quando sem educador; senão esmaecida para dar contraste
           let classe = 'cell eixo-'+eixo + (semEd ? ' semed-dest' : ' semed-dim');
           let badge = semEd ? '<div class="semed-badge" style="background:'+EIXO_STYLE_COR[eixo]+';">SEM EDUC.</div>' : '';
-          let edOpts = '<option value="">—</option>' + EDUC.map(e => '<option value="'+e+'" '+(cell.eds[0]===e?'selected':'')+'>'+e+'</option>').join('');
-          let ofiOpts = OFICINAS.map(o => '<option value="'+o.replace(/"/g,'&quot;')+'" '+(o===cell.oficina?'selected':'')+'>'+o+'</option>').join('');
-          tbl += '<td><div class="'+classe+'" id="cell-'+ck+'">'
+          // educadores: só os LIVRES no horário (+ o atual, sempre visível)
+          const ocup = occ[diasOrd[di]+'|'+slot.start+'|'+slot.end] || new Set();
+          let edOpts = '<option value="">— (sem educador)</option>' + EDUC.filter(e => !ocup.has(e) || e===edAtual)
+            .map(e => '<option value="'+e+'" '+(edAtual===e?'selected':'')+'>'+e+'</option>').join('');
+          let ofiOpts = OFICINAS.map(o => '<option value="'+o.replace(/"/g,'&quot;')+'" '+(o===ofiAtual?'selected':'')+'>'+o+'</option>').join('');
+          // IDs próprios (prefixo se-) para não duplicar os IDs da aba Por turma
+          tbl += '<td><div class="'+classe+'" id="se-cell-'+ck+'">'
             + badge
-            + '<select class="ofi-sel" autocomplete="off" id="ofi-'+ck+'" data-ck="'+ck+'" onchange="ofiChanged(this.dataset.ck)">'+ofiOpts+'</select>'
-            + '<select autocomplete="off" id="sel-'+ck+'" data-ck="'+ck+'" onchange="edChanged(this.dataset.ck)">'+edOpts+'</select>'
+            + '<select class="ofi-sel" autocomplete="off" id="se-ofi-'+ck+'" data-ck="'+ck+'" onchange="semEdOfi(this.dataset.ck, this.value)">'+ofiOpts+'</select>'
+            + '<select autocomplete="off" id="se-sel-'+ck+'" data-ck="'+ck+'" onchange="semEdEd(this.dataset.ck, this.value)">'+edOpts+'</select>'
             + '</div></td>';
         });
         tbl += '</tr>';
@@ -422,6 +429,16 @@ function buildSemEd() {
     });
   });
   cont.innerHTML = html;
+}
+
+// edições feitas na aba Sem educador gravam na aba Por turma (fonte única) e revalidam tudo
+function semEdOfi(ck, v) {
+  const s = document.getElementById('ofi-'+ck); if (!s) return;
+  s.value = v; ofiChanged(ck);
+}
+function semEdEd(ck, v) {
+  const s = document.getElementById('sel-'+ck); if (!s) return;
+  s.value = v; edChanged(ck);
 }
 
 function mostrarAba(aba) {
